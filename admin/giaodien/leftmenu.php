@@ -1,8 +1,4 @@
-
-<style>
-</style>
-
-<div class ="Suafix">
+<div >
     <!-- <a href="admin.php?vitri=left&giatri=1"><div>Hóa đơn</div> </a> 
     <a href="admin.php?vitri=left&giatri=2"><div>Thống kê</div></a> 
     <a href="admin.php?vitri=left&giatri=5"><div>Khách hàng</div></a>
@@ -14,15 +10,11 @@
     
     <ul class="input-select2" >    
         <?php
-             $sql = "select id, ten_danhmuc, icon_dm from danhmuc,quyendahmuc where `id_danhmuc`=`id` AND `id_quyen`=" . $_SESSION['quyen'] . "";
-             $list = executeResult($sql);
-             
-             foreach ($list as $item) {
-                 echo '<li class="item"><a href="admin.php?muc=' . $item['id'] . '&tmuc=' . urlencode($item['ten_danhmuc']) . '" class="d-flex align-items-center">';
-                 echo $item['icon_dm']; // Đảm bảo rằng $item['icon_dm'] chứa mã HTML của icon
-                 echo '<span class="ml-2">' . $item['ten_danhmuc'] . '</span>'; // Thêm khoảng cách bằng cách sử dụng class ml-2
-                 echo '</a></li>';
-             }
+            $sql="select id,ten_danhmuc from danhmuc,quyendahmuc where `id_danhmuc`=`id` AND `id_quyen`=" . $_SESSION['quyen'] . "";
+            $list=executeResult($sql);
+            foreach($list as $item){
+                echo '<li class="item"><a href="admin.php?muc='.$item['id'].'&tmuc='.$item['ten_danhmuc'].'">'.$item['ten_danhmuc'].'</a></li>';
+            }
         ?>
     </ul>
 </div>

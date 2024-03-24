@@ -2,7 +2,7 @@
     display: flex;
     #leftmenu {
         width: 20%;
-        background-color:   #F9D5CA;;
+        background-color: #3498db;
         border:  none;
         height: 100vh;
         .input-select2 {
@@ -17,7 +17,7 @@
                     
                 }
                 &:hover {
-                    background-color:  #F9D5CA;;
+                    background-color: #2980b9;
                     cursor: pointer;
                     a {
                         font-weight: bold;
@@ -44,5 +44,3 @@
     
     }
 }
-
-

@@ -3,9 +3,9 @@
 }
 #body #leftmenu {
   width: 20%;
-  background-color:#F9D5CA;
+  background-color: #3498db;
   border: none;
-  height: 780px;
+  height: 100vh;
 }
 #body #leftmenu .input-select2 {
   padding: 0px;
@@ -18,7 +18,7 @@
   transition: 0.3s;
 }
 #body #leftmenu .input-select2 li.item:hover {
-  background-color:#F9D5CA;
+  background-color: #2980b9;
   cursor: pointer;
 }
 #body #leftmenu .input-select2 li.item:hover a {
@@ -28,9 +28,6 @@
 }
 #body #content {
   width: 80%;
-  height: 780px;
-  background-color: #e9e9ed;
-
 }
 #body #content .main-content {
   width: 100%;
@@ -38,59 +35,8 @@
 }
 #body #content .main-content h1 {
   padding: 15px;
-  /* background-color:  #F9D5CA; */
+  background-color: #2980b9;
   margin: 0px;
-  color: rgb(15, 15, 15);
+  color: white;
   text-align: center;
-  
 }/*# sourceMappingURL=style2.css.map */
-
-/* sggssssssssssss */
-@media only screen and (max-width: 991px) {
-  #body {
-    display: flex;
-  }
-  #body #leftmenu {
-    width: 20%;
-    background-color:   #F9D5CA;;
-    border: none;
-    height: 780px;
-  }
-  #body #leftmenu .input-select2 {
-    padding: 0px;
-  }
-  #body #leftmenu .input-select2 li.item a {
-    padding: 20px;
-    display: inline-block;
-    width: 100%;
-    font-size: 18px;
-    transition: 0.3s;
-  }
-  #body #leftmenu .input-select2 li.item:hover {
-    background-color:   #F9D5CA;;
-    cursor: pointer;
-  }
-  #body #leftmenu .input-select2 li.item:hover a {
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 20px;
-  }
-  #body #content {
-    width: 80%;
-    height: 780px;
-    background-color: #e9e9ed;
-  
-  }
-  #body #content .main-content {
-    width: 100%;
-    margin: 0;
-  }
-  #body #content .main-content h1 {
-    padding: 15px;
-    /* background-color:  #F9D5CA; */
-    margin: 0px;
-    color: rgb(15, 15, 15);
-    text-align: center;
-    
-  }
-}

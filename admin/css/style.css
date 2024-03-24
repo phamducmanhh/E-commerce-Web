@@ -59,7 +59,6 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   color: #333;
-  background-color: #B9BABC;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -2003,8 +2002,8 @@ textarea.input {
 ===========================================================*/
 
 #footer {
-  background: #91C8EB;
-  color: #0e0e0e;
+  background: #15161D;
+  color: #B9BABC;
 }
 
 #bottom-footer {
@@ -2221,21 +2220,20 @@ textarea.input {
  
  
 }
-/* .input-select2 {
-} */
+.input-select2 {
+}
 .input-select2 a{
-  color: rgb(7, 7, 7);
+  color: white;
 }
 #header2 {
   padding-top: 15px;
   padding-bottom: 15px;
-  background-color: #F9D5CA;
-  /* background-color: rgb(84, 61, 177); */
+  background-color: #15161D;
   height: 50px;
   position: relative;
 }
 #nd {
-  color: rgb(6, 6, 6);
+  color: white;
   width: 200px;
   position: absolute;
   bottom:50%;

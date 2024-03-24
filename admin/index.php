@@ -158,29 +158,6 @@ button {
     border-radius: 7px;
     color: #fff;
 }
-/* Thiết lập kiểu cho nút thoát */
-.login-link {
-    display: inline-block;
-    padding: 10px 200px;
-    background-color: #3498db; /* Màu nền */
-    color: #ffffff; /* Màu chữ */
-    text-decoration: none;
-    font-size: 20px; /* Kích thước chữ */
-    font-weight: bold;
-    border-radius: 5px; /* Bo tròn cạnh */
-    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
-
-    /* Tùy chỉnh kiểu khi đưa chuột vào nút */
-    &:hover {
-        background-color: #2980b9;
-    }
-}
-
-/* Tùy chỉnh kiểu cho nút thoát trong trường hợp nó được đặt trong thẻ div */
-div .login-link {
-    /* Thêm bất kỳ kiểu tùy chỉnh nào bạn muốn cho nút thoát trong thẻ div */
-}
-
 
     </style>
 </head>
@@ -243,10 +220,7 @@ div .login-link {
 
                 <div class="buttonnn">
                     <button class="btn">Submit</button>
-                        
                 </div>
-                <div >
-                    <a href="../index.php" class="login-link">Thoát</a></div>
             </form>
         </div>
     </section>

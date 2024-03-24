@@ -25,7 +25,6 @@ if (!empty($_SESSION['nguoidung'])) {
                     <div id="success-notify" class="box-content">
                         <h2>Xóa nhân viên thành công</h2>
                         <a href="./admin.php?tmuc=Nhân viên">Danh sách nhân viên</a>
-                       
                     </div>
                 <?php } ?>
     <?php } ?>

@@ -59,7 +59,7 @@
                             while($row = mysqli_fetch_array($danhmuc1)) {
                             ?>
                                 <tr>                              
-                                    <td><?= $row['ten_danhmuc']  ?></td>
+                                    <td><?= $row['ten_danhmuc'] ?></td>
                                     <td><input type="checkbox" value="<?= $row['id']?>" name="row1[]" <?php if(in_array($row['id'], $quyendanhmuc1List))echo "checked"?>> </td>                                  
                                     <div class="clear-both"></div></form>
                                 </tr>

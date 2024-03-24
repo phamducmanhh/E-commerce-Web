@@ -1,3 +1,4 @@
+<!-- Cường -->
 
 <div class="main-content">
     <h1>Xóa sản phẩm</h1>
