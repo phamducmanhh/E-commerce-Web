@@ -151,6 +151,34 @@
     </div>
     <input type="submit" value="Thanh toán" name="redirect" id="redirect" class="btn btn-danger">
     <p></p>
+	</form>
+	<?php
+      $tongtien=0;
+	  $shipping = 15000;
+	  
+      foreach($_SESSION['cart'] as $key => $value){
+        $thanhtien = $value['qty']*$value['price'] ;
+        $tongtien+= $thanhtien + $shipping;
+		
+		if($thanhtien>1000000){
+			$tongtien -= $shipping;
+		}
+      }
+      $tongtien_vnd = $tongtien;
+      $tongtien_usd = round($tongtien/23677);
+	  
+
+	  
+    ?>
+	<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo.php">
+      <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">
+      <input type="submit" name="momo" value="Thanh toán MOMO QRcode" class="btn btn-danger">
+    </form>
+    <p></p>
+	<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo_atm.php">
+      <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">  
+      <input type="submit" name="momo" value="Thanh toán MOMO ATM" class="btn btn-danger">
+    </form>
 
 
 					</div>

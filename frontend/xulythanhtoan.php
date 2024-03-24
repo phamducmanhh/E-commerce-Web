@@ -10,13 +10,15 @@
     if(isset($_SESSION['cart'])) $cart=$_SESSION['cart'];
          
         foreach($cart as $value){
-            $tong_tien+=$value['qty']*$value['price'] + $shipping;
+            $tong_tien+=$value['qty']*$value['price'] + 15000 ;
         }
+        $tongtien_vnd = $tongtien;
     //$id_dangky = $_SESSION['id_khachhang'];
     //Lấy id thông tin vận chuyển
     if($cart_payment=='tienmat'){
         
-        echo "Thanh toán thành công";
+        header("Location:http://localhost:8088/CNM/frontend/camon.php");
+        
            
              
     }
