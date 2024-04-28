@@ -31,8 +31,8 @@ $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 $orderInfo = "Thanh toán qua mã QRcode MOMO";
 $amount = $_POST['tongtien_vnd'];
 $orderId = time() ."";
-$redirectUrl = "Location:http://localhost:8088/CNM/frontend/camon.php";
-$ipnUrl = "Location:http://localhost:8088/CNM/frontend/camon.php";
+$redirectUrl = "http://localhost:8088/CNM/index.php?act=camon";
+$ipnUrl = "http://localhost:8088/CNM/index.php?act=camon";
 $extraData = "";
 
     $requestId = time() . "";

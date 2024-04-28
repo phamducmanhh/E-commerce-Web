@@ -36,6 +36,9 @@
         if($act=='register'){
             include('frontend/register.php');
         }
+        if($act=='camon'){
+            include('frontend/camon.php');
+        }
     }else
         if(isset($_GET['search'])){
             $search=$_GET['search'];

@@ -235,4 +235,33 @@
                 }
         </script>
 </body>
+<script src="https://www.paypal.com/sdk/js?client-id=AWyPkbrAVg4l-Wf1VEZ0pwIjgAkEHrHK8wSZd21qKT_QQvWUmy1ZYvL6QfR5X3m_VfbN0otwac6NH_Nv&currency=USD"></script>
+<script>
+    paypal.Buttons({
+        
+        createOrder: function(data, actions){
+            // var tongtien = document.getElementById('tongtien').value;
+            var tongtien = document.getElementById('tongtien').value;
+            return actions.order.create({
+                purchase_units:[{
+                    amount: {
+                        value: tongtien
+                    }
+                }]
+            });
+        },
+
+        onApprove: function(data, actions){
+            return actions.order.capture().then(function(orderData){
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                var transaction = orderData.purchase_units[0].payments.captures[0];
+                alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                window.location.replace('Location:http://localhost:8088/CNM/frontend/camon.php&thanhtoan=paypal');
+            });
+        },
+        onCancle:function(data){
+            window.location.replace('http://localhost:8088/CNM/index.php?act=cart');
+        }
+    }).render('#paypal-button-container');
+</script>
 </html>

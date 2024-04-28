@@ -127,7 +127,10 @@
 						}
 							?> -->
 
-
+<?php 
+	if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
+		if(isset($_SESSION['ten_dangnhap']) && !empty($_SESSION['ten_dangnhap'])){
+?>
 <div class="form-check">
       <input class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="tienmat" checked>
       <!-- <img src="images/tienmat.jpg" style="width:47px; height: 33px"> -->
@@ -170,6 +173,8 @@
 
 	  
     ?>
+	<input type="hidden" name="" value="<?php echo $tongtien_vnd ?>" id="tongtien">
+	<div id="paypal-button-container"></div>
 	<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo.php">
       <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">
       <input type="submit" name="momo" value="Thanh toán MOMO QRcode" class="btn btn-danger">
@@ -179,6 +184,15 @@
       <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">  
       <input type="submit" name="momo" value="Thanh toán MOMO ATM" class="btn btn-danger">
     </form>
+	
+
+	<?php
+		} else {
+			echo '<a style="width:100%" class="primary-btn order-submit" href="http://localhost:8088/CNM/index.php?act=login">Vui lòng đăng nhập để thanh toán</a>';
+			//echo '<button style="width:100%" onclick="window.location.href=\'http://localhost:8088/CNM/index.php?act=login\'" class="primary-btn order-submit">Vui lòng đăng nhập để tiến hành thanh toán</button>';
+		}
+	}
+	?>
 
 
 					</div>

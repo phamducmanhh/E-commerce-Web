@@ -15,7 +15,13 @@ if (isset($_GET['act'])) {
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Nhà cung cấp')
         include('nhacungcap.php');
-}
+ }
+//if (isset($_GET['tmuc'])) {
+//     if ($_GET['tmuc'] == 'Bài viết')
+//         include('danhmucbaiviet.php');
+//         include('lietkedanhmucbaiviet.php');
+//         include('xulydanhmucbaiviet.php');
+// }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Khách hàng')
         include('khachhang.php');
@@ -45,12 +51,27 @@ if (isset($_GET['tmuc'])) {
         include('phieunhap.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Bài viết')
+        include('baiviet_add.php');
+}
+if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Danh mục bài viết')
+        include('danhmucbaiviet.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Thống kê')
         include('thongke2.php');
 }
 if (isset($_GET['act']))
     if ($_GET['act'] == 'add')
         include('product_adding.php');
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'them_dmbv')
+        include('danhmucbaiviet_add.php');
+        
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'sua_dmbv')
+        include('danhmucbaiviet_edit.php');
 if (isset($_GET['act']))
     if ($_GET['act'] == 'addss')
         echo ("them thanh cong");
@@ -135,6 +156,10 @@ if (isset($_GET['act'])) {
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'ctphieunhap')
         include('ctphieunhap.php');
+}
+if (isset($_GET['act'])) {
+    if ($_GET['act'] == 'danhmucsp')
+        include('danhmucsp.php');
 }
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'xoahd')
