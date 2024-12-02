@@ -10,27 +10,43 @@ if (!empty($_SESSION['nguoidung'])) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 include_once './connect_db.php';
                 include_once './function.php';
-                $result = execute("DELETE FROM `theloai` WHERE `id` = " . $_GET['id']."");
+                
+                $result = execute("DELETE FROM `theloai` WHERE `id` = " . $_GET['id']);
                 if (!$result) {
                     $error = "Không thể xóa thể loại.";
                 }
-                if ($error != false) {
+                
+                if ($error) {  // Only enter this block if $error contains an error message
                     ?>
-                    <div id="error-notify" class="box-content">
-                        <h2>Thất bại</h2>
-                        
-                        <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
-                    </div>
-        <?php } else { ?>
-                    <div id="success-notify" class="box-content">
-                        <h2>Xóa thể loại thành công</h2>
-                        <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
-                    </div>
+                    <script>
+                        Swal.fire({
+                            title: 'Thất bại',
+                            text: '<?php echo $error; ?>',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = './admin.php?tmuc=Thể loại';
+                            }
+                        });
+                    </script>
+                <?php } else { ?>
+                    <script>
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: 'Xóa thể loại thành công',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = './admin.php?tmuc=Thể loại';
+                            }
+                        });
+                    </script>
                 <?php } ?>
-    <?php } ?>
+            <?php } ?>
         </div>
     </div>
     <?php
 }
-
 ?>

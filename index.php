@@ -56,6 +56,9 @@
     if($act=='register'){
         $title='Tạo tài khoản mới';
     }
+    if($act=='xulythanhtoan'){
+        $title='';
+    }
     if($act=='my_bill'){
         $title='Đơn hàng của tôi';
     }
@@ -103,6 +106,12 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+<script src="//code.tidio.co/dqgelgm0tayb8hqdsazvd2avyo4durd0.js" async></script>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.24/sweetalert2.min.css" />
+
+<!-- SweetAlert2 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.24/sweetalert2.all.min.js"></script>
 <!-- jQuery library -->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
 <script type="text/javascript" src="js/jquery1.min.js"></script>
@@ -111,6 +120,13 @@
 <script type="text/javascript" src="js/popper.min.js"></script> 
 </head>
 <body>
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="Local_mess"
+  agent-id="d4a5b75c-0ede-4cba-bcaf-8d769ae8f262"
+  language-code="vi"
+></df-messenger>
 <div id="wapper">
         <div id="header">
             <?php require_once('frontend/header.php'); ?>
@@ -256,11 +272,11 @@
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                 var transaction = orderData.purchase_units[0].payments.captures[0];
                 alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-                window.location.replace('Location:http://localhost:8088/CNM/frontend/camon.php&thanhtoan=paypal');
+                window.location.replace('Location:http://localhost:80/CNM/&thanhtoan=paypal');
             });
         },
         onCancle:function(data){
-            window.location.replace('http://localhost:8088/CNM/index.php?act=cart');
+            window.location.replace('http://localhost:80/CNM/index.php?act=cart');
         }
     }).render('#paypal-button-container');
 </script>

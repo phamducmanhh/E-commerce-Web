@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     <!-- Google font -->
+     
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
 
@@ -47,6 +48,7 @@
                                                 $conn = mysqli_connect("localhost", "root", "", "bannuocdb");
                                                 $namei = $_POST['name'];
                                                 $price = $_POST['price'];
+                                                $soluong = $_POST['soluong'];
                                                 // $image=$_FILES['image'];
                                                 $idtl = $_POST['idtl'];
                                                 $idncc = $_POST['idncc'];
@@ -64,7 +66,7 @@
                                                         move_uploaded_file($tmp_name, $path2 . $name);
                                                         $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
                                                         // Insert ảnh vào cơ sở dữ liệu
-                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`id_nha_cc`,`trangthai`) VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content',0,'$idtl','$idncc',0);";
+                                                        $sql1 = "INSERT INTO `sanpham` (`ten_sp`, `hinh_anh`, `don_gia`, `noi_dung`,`so_luong`,`id_the_loai`,`id_nha_cc`,`trangthai`) VALUES ('$namei','$image_url', " . str_replace('.', '', $price) . ", '$content','$soluong','$idtl','$idncc',0);";
                                                         $result1 = mysqli_query($conn, $sql1);
                                                         if (isset($_FILES['gallery']))
                                                             if ($_FILES['gallery'] != '') {
@@ -107,96 +109,180 @@
             if ($_POST['name'] != '') {
                 if (isset($_POST['price']))
                     if ($_POST['price'] != '') {
-                        if (isset($_POST['idtl']))
-                            if ($_POST['idtl'] != '') {
-                                if (isset($_POST['idncc']))
-                                    if ($_POST['idncc'] != '') {
-                                        if (isset($_POST['content']))
-                                            if ($_POST['content'] != '') {
-                                                if (isset($_POST['trangthai']) == "on") $trangthai = 0;
-                                                if (isset($_POST['trangthai']) == NULL) $trangthai = 1;
-                                                include_once('function.php');
-                                                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
-                                                $result4 = mysqli_query($con, "SELECT `id_the_loai` FROM `sanpham` WHERE `id`=" . $_GET['id'] . "");
-                                                $r2 = mysqli_fetch_array($result4);
-                                                if (isset($_FILES['gallery']) && !empty($_FILES['gallery']['name'][0])) {
-                                                    $uploadedFiles = $_FILES['gallery'];
-                                                    $result = uploadFiles($uploadedFiles);
-                                                    $galleryImages = $result['uploaded_files'];
-                                                }
-                                                if (!empty($_POST['gallery_image'])) {
-                                                    $galleryImages = array_merge($galleryImages, $_POST['gallery_image']);
-                                                }
-                                                if (!isset($image_url) && !empty($_POST['image'])) {
-                                                    $image_url = $_POST['image'];
-                                                }
-                                                if ($_FILES['image']['name'] != NULL) {
-                                                    // Kiểm tra file up lên có phải là ảnh không
-                                                    if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
-
-                                                        // Nếu là ảnh tiến hành code upload
-                                                        $path1 = "";
-                                                        $path = "../img/"; // Ảnh sẽ lưu vào thư mục images
-                                                        $tmp_name = $_FILES['image']['tmp_name'];
-                                                        $name = $_FILES['image']['name'];
-                                                        // Upload ảnh vào thư mục images
-                                                        move_uploaded_file($tmp_name, $path . $name);
-                                                        $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
-                                                        // Insert ảnh vào cơ sở dữ liệu
-                                                    }
-                                                }
-                                                $result1 = mysqli_query($con, "UPDATE `sanpham` SET `ten_sp` = '" . $_POST['name'] . "',`hinh_anh` =  '$image_url', `don_gia` = " . str_replace('.', '', $_POST['price']) . ", `noi_dung` = '" . $_POST['content'] . "', `ngay_sua` = " . time() . ",`id_the_loai` =" . $_POST['idtl'] . ",`id_nha_cc`=" . $_POST['idncc'] . ",`trangthai`=" . $trangthai . " WHERE `sanpham`.`id` = " . $_GET['id']);
-                                                if (!empty($galleryImages)) {
-                                                    $product_id = ($_GET['act'] == 'sua' && !empty($_GET['id'])) ? $_GET['id'] : $con->insert_id;
-                                                    $insertValues = "";
-                                                    foreach ($galleryImages as $path) {
-                                                        if (empty($insertValues)) {
-                                                            $insertValues = "( " . $product_id . ", '" . $path . "')";
-                                                        } else {
-                                                            $insertValues .= ",( " . $product_id . ", '" . $path . "')";
+                        if (isset($_POST['soluong']))
+                            if ($_POST['soluong'] != '') {
+                                if (isset($_POST['idtl']))
+                                    if ($_POST['idtl'] != '') {
+                                        if (isset($_POST['idncc']))
+                                            if ($_POST['idncc'] != '') {
+                                                if (isset($_POST['content']))
+                                                    if ($_POST['content'] != '') {
+                                                        if (isset($_POST['trangthai']) == "on") $trangthai = 0;
+                                                        if (isset($_POST['trangthai']) == NULL) $trangthai = 1;
+                                                        include_once('function.php');
+                                                        $con = mysqli_connect("localhost", "root", "", "bannuocdb");
+                                                        $result4 = mysqli_query($con, "SELECT `id_the_loai` FROM `sanpham` WHERE `id`=" . $_GET['id'] . "");
+                                                        $r2 = mysqli_fetch_array($result4);
+                                                        if (isset($_FILES['gallery']) && !empty($_FILES['gallery']['name'][0])) {
+                                                            $uploadedFiles = $_FILES['gallery'];
+                                                            $result = uploadFiles($uploadedFiles);
+                                                            $galleryImages = $result['uploaded_files'];
                                                         }
-                                                    }
-                                                    $result = mysqli_query($con, "INSERT INTO `hinhanhsp` ( `id_sp`, `hinh_anh`) VALUES " . $insertValues . ";");
-                                                    echo "cap nhat thanh cong";
-                                                }
-                                                if ($result1) {
-                                                    // $result5 = mysqli_query($con,"SELECT COUNT(`id_the_loai`) AS cid_the_loai FROM `sanpham` WHERE `id_the_loai`=".$r2['id_the_loai']."");
-                                                    // $r5=mysqli_fetch_array($result5);
-                                                    // $result6 = mysqli_query($con,"UPDATE `theloai` SET `tong_sp`=".$r5['cid_the_loai']." WHERE `id`=".$r2['id_the_loai']."");
-                                                    // $result2 = mysqli_query($con,"SELECT COUNT(`id_the_loai`) AS cid_the_loai FROM `sanpham` WHERE `id_the_loai`=".$_POST['idtl']."");
-                                                    // $r=mysqli_fetch_array($result2);
-                                                    // $result3 = mysqli_query($con,"UPDATE `theloai` SET `tong_sp`=".$r['cid_the_loai']." WHERE `id`=".$_POST['idtl']."");
-                                                    // if ($result6&&$result3) { 
-                                                    header("location:./admin.php?act=suasptc&dk=yes");
-                                                    // else header("location:./admin.php?act=suasptc&dk=no"); 
-                                                } else header("location:./admin.php?act=suasptc&dk=no");
+                                                        if (!empty($_POST['gallery_image'])) {
+                                                            $galleryImages = array_merge($galleryImages, $_POST['gallery_image']);
+                                                        }
+                                                        if (!isset($image_url) && !empty($_POST['image'])) {
+                                                            $image_url = $_POST['image'];
+                                                        }
+                                                        if ($_FILES['image']['name'] != NULL) {
+                                                            // Kiểm tra file up lên có phải là ảnh không
+                                                            if ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" || $_FILES['image']['type'] == "image/gif") {
+
+                                                                // Nếu là ảnh tiến hành code upload
+                                                                $path1 = "";
+                                                                $path = "../img/"; // Ảnh sẽ lưu vào thư mục images
+                                                                $tmp_name = $_FILES['image']['tmp_name'];
+                                                                $name = $_FILES['image']['name'];
+                                                                // Upload ảnh vào thư mục images
+                                                                move_uploaded_file($tmp_name, $path . $name);
+                                                                $image_url = $path1 . $name; // Đường dẫn ảnh lưu vào cơ sở dữ liệu
+                                                                // Insert ảnh vào cơ sở dữ liệu
+                                                            }
+                                                        }
+                                                        $result1 = mysqli_query($con, "UPDATE `sanpham` SET `ten_sp` = '" . $_POST['name'] . "',`hinh_anh` =  '$image_url', `don_gia` = " . str_replace('.', '', $_POST['price']) . ",`so_luong` =  '".$_POST['soluong']."', `noi_dung` = '" . $_POST['content'] . "', `ngay_sua` = " . time() . ",`id_the_loai` =" . $_POST['idtl'] . ",`id_nha_cc`=" . $_POST['idncc'] . ",`trangthai`=" . $trangthai . " WHERE `sanpham`.`id` = " . $_GET['id']);
+                                                        if (!empty($galleryImages)) {
+                                                            $product_id = ($_GET['act'] == 'sua' && !empty($_GET['id'])) ? $_GET['id'] : $con->insert_id;
+                                                            $insertValues = "";
+                                                            foreach ($galleryImages as $path) {
+                                                                if (empty($insertValues)) {
+                                                                    $insertValues = "( " . $product_id . ", '" . $path . "')";
+                                                                } else {
+                                                                    $insertValues .= ",( " . $product_id . ", '" . $path . "')";
+                                                                }
+                                                            }
+                                                            $result = mysqli_query($con, "INSERT INTO `hinhanhsp` ( `id_sp`, `hinh_anh`) VALUES " . $insertValues . ";");
+                                                            echo "cap nhat thanh cong";
+                                                        }
+                                                        if ($result1) {
+                                                            // $result5 = mysqli_query($con,"SELECT COUNT(`id_the_loai`) AS cid_the_loai FROM `sanpham` WHERE `id_the_loai`=".$r2['id_the_loai']."");
+                                                            // $r5=mysqli_fetch_array($result5);
+                                                            // $result6 = mysqli_query($con,"UPDATE `theloai` SET `tong_sp`=".$r5['cid_the_loai']." WHERE `id`=".$r2['id_the_loai']."");
+                                                            // $result2 = mysqli_query($con,"SELECT COUNT(`id_the_loai`) AS cid_the_loai FROM `sanpham` WHERE `id_the_loai`=".$_POST['idtl']."");
+                                                            // $r=mysqli_fetch_array($result2);
+                                                            // $result3 = mysqli_query($con,"UPDATE `theloai` SET `tong_sp`=".$r['cid_the_loai']." WHERE `id`=".$_POST['idtl']."");
+                                                            // if ($result6&&$result3) { 
+                                                            header("location:./admin.php?act=suasptc&dk=yes");
+                                                            // else header("location:./admin.php?act=suasptc&dk=no"); 
+                                                        } else header("location:./admin.php?act=suasptc&dk=no");
+                                                    } else header("location:./admin.php?act=suasptc&dk=no");
                                             } else header("location:./admin.php?act=suasptc&dk=no");
                                     } else header("location:./admin.php?act=suasptc&dk=no");
-                            } else header("location:./admin.php?act=suasptc&dk=no");
+                                }else header("location:./admin.php?act=suasptc&dk=no");
+                                } else header("location:./admin.php?act=suasptc&dk=no");
                     } else header("location:./admin.php?act=suasptc&dk=no");
-            } else header("location:./admin.php?act=suasptc&dk=no");
-    }
-    if (isset($_POST['btntladd'])) {
-        if (isset($_POST['name']))
-            if ($_POST['name'] != '') {
-                $namei = $_POST['name'];
-                $sql = "INSERT INTO `theloai`(`ten_tl`) VALUES ('$namei')";
-                $result = mysqli_query($con, $sql);
-                if ($result)
-                    header("location:./admin.php?act=addtltc&dk=yes");
-                else header("location:./admin.php?act=addtltc&dk=no");
-            } else header("location:./admin.php?act=addtltc&dk=no");
-    }
-    if (isset($_POST['btntlsua'])) {
-        if (isset($_POST['name']))
-            if ($_POST['name'] != '') {
-                $con = mysqli_connect("localhost", "root", "", "bannuocdb");
-                $result1 = mysqli_query($con, "UPDATE `theloai` SET `ten_tl` = '" . $_POST['name'] . "'WHERE `theloai`.`id` = " . $_GET['id'] . " ");
-                if ($result1)
-                    header("location:./admin.php?act=suatltc&dk=yes");
-                else header("location:./admin.php?act=suatltc&dk=no");
-            } else header("location:./admin.php?act=suatltc&dk=no");
-    }
+            }
+            if (isset($_POST['btntladd'])) {
+                if (!empty($_POST['name']) && !empty($_POST['ten_thuonghieu']) && !empty($_FILES['image']['name'])) {
+                    // Check if the uploaded file is an image
+                    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+                    if (in_array($_FILES['image']['type'], $allowed_types)) {
+                        // Define paths for saving the image
+                        $path1 = ""; // Path for database
+                        $path2 = "../img/"; // Folder to save uploaded image
+                        $tmp_name = $_FILES['image']['tmp_name'];
+                        $name = $_FILES['image']['name'];
+                        
+                        // Upload the image
+                        if (move_uploaded_file($tmp_name, $path2 . $name)) {
+                            $image_url = $path1 . $name; // Image URL for database
+                            
+                            // Insert data into the database
+                            $sql = "INSERT INTO `theloai` (`ten_tl`, `tenthuonghieu`, `image_theloai`) VALUES ('" . mysqli_real_escape_string($con, $_POST['name']) . "', '" . mysqli_real_escape_string($con, $_POST['ten_thuonghieu']) . "', '" . mysqli_real_escape_string($con, $image_url) . "')";
+                            $result = mysqli_query($con, $sql);
+                            
+                            // Redirect based on the query result
+                            if ($result) {
+                                header("Location: ./admin.php?act=addtltc&dk=yes");
+                                exit();
+                            } else {
+                                header("Location: ./admin.php?act=addtltc&dk=no");
+                                exit();
+                            }
+                        } else {
+                            header("Location: ./admin.php?act=addtltc&dk=no");
+                            exit();
+                        }
+                    } else {
+                        // Invalid file type
+                        header("Location: ./admin.php?act=addtltc&dk=no");
+                        exit();
+                    }
+                } else {
+                    // Missing required fields
+                    header("Location: ./admin.php?act=addtltc&dk=no");
+                    exit();
+                }
+            }
+            
+            if (isset($_POST['btntlsua'])) {
+                if (!empty($_POST['name']) && !empty($_POST['ten_thuonghieu'])) {
+                    // Sanitize input values
+                    $name = mysqli_real_escape_string($con, $_POST['name']);
+                    $ten_thuonghieu = mysqli_real_escape_string($con, $_POST['ten_thuonghieu']);
+                    $id = mysqli_real_escape_string($con, $_GET['id']); // Ensure the ID is sanitized
+                    
+                    // Check if a new image file is uploaded
+                    if (!empty($_FILES['image']['name'])) {
+                        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+                        
+                        // Validate file type
+                        if (in_array($_FILES['image']['type'], $allowed_types)) {
+                            $path1 = ""; // For database storage
+                            $path2 = "../img/"; // Folder for uploaded images
+                            $tmp_name = $_FILES['image']['tmp_name'];
+                            $file_name = $_FILES['image']['name'];
+                            
+                            // Upload the new image
+                            if (move_uploaded_file($tmp_name, $path2 . $file_name)) {
+                                $image_url = $path1 . $file_name;
+                                
+                                // Update database with new image and correct values
+                                $sql = "UPDATE `theloai` SET `ten_tl` = '$name', `tenthuonghieu` = '$ten_thuonghieu', `image_theloai` = '$image_url' WHERE `id` = $id";
+                                $result = mysqli_query($con, $sql);
+                                
+                                if ($result) {
+                                    header("Location: ./admin.php?act=suatltc&dk=yes");
+                                    exit();
+                                } else {
+                                    header("Location: ./admin.php?act=suatltc&dk=no");
+                                    exit();
+                                }
+                            }
+                        } else {
+                            // Invalid file type
+                            header("Location: ./admin.php?act=suatltc&dk=no");
+                            exit();
+                        }
+                    } else {
+                        // Keep existing image if no new one is uploaded
+                        $image_url = mysqli_real_escape_string($con, $_POST['image']);
+                        $sql = "UPDATE `theloai` SET `ten_tl` = '$name', `tenthuonghieu` = '$ten_thuonghieu', `image_theloai` = '$image_url' WHERE `id` = $id";
+                        $result = mysqli_query($con, $sql);
+                        
+                        if ($result) {
+                            header("Location: ./admin.php?act=suatltc&dk=yes");
+                            exit();
+                        } else {
+                            header("Location: ./admin.php?act=suatltc&dk=no");
+                            exit();
+                        }
+                    }
+                } else {
+                    // Missing required fields
+                    header("Location: ./admin.php?act=suatltc&dk=no");
+                    exit();
+                }
+            }
     if (isset($_POST['btnnccadd'])) {
         if (isset($_POST['name']))
             if ($_POST['name'] != '') {

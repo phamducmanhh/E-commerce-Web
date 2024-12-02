@@ -33,7 +33,7 @@
 <?php
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Tổng tiền hóa đơn theo khách hàng từ ngày 2021-05-01 đến 2021-05-31
-    $strSQL= "SELECT id_khachhang,sum(tong_tien) FROM hoadon WHERE ngay_tao BETWEEN '2021-05-01' AND '2021-05-31' GROUP BY id_khachhang";
+    $strSQL= "SELECT id_khachhang,sum(tong_tien) FROM hoadon WHERE ngay_tao BETWEEN '2024-04-06' AND '2024-05-19' GROUP BY id_khachhang";
     $tong = executeQuery("localhost","root","","bannuocdb",$strSQL);
     foreach($tong as $item){
         $array[]=$item;
@@ -45,8 +45,8 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     //Thống kê tổng tiền hóa dơn theo thể loại trong tháng 5
-    $strSQL2= "SELECT sanpham.id_the_loai as id, SUM(cthoadon.so_luong*sanpham.don_gia ) AS tong FROM cthoadon, hoadon,sanpham WHERE month(hoadon.ngay_tao)=5  and hoadon.id=cthoadon.id_hoadon AND cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id_the_loai";
-    $month2='5';
+    $strSQL2= "SELECT sanpham.id_the_loai as id, SUM(cthoadon.so_luong*sanpham.don_gia ) AS tong FROM cthoadon, hoadon,sanpham WHERE month(hoadon.ngay_tao)=3  and hoadon.id=cthoadon.id_hoadon AND cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id_the_loai";
+    $month2='3';
     if(isset($_GET['month2'])){
         $month2 = $_GET['month2'];
         if($month2!='')
@@ -72,7 +72,7 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Thống kê tình hình kinh doanh trong một khoảng thời gian của các sản phẩm thuộc một loại / tất cả sản phẩm.
-    $strSQL= "SELECT sanpham.id, SUM(cthoadon.so_luong*sanpham.don_gia) as tongtien FROM hoadon,cthoadon,sanpham WHERE hoadon.ngay_tao BETWEEN '2021-05-01' AND '2021-05-31' AND hoadon.id=cthoadon.id_hoadon and cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id";
+    $strSQL= "SELECT sanpham.id, SUM(cthoadon.so_luong*sanpham.don_gia) as tongtien FROM hoadon,cthoadon,sanpham WHERE hoadon.ngay_tao BETWEEN '2024-04-06' AND '2024-05-31' AND hoadon.id=cthoadon.id_hoadon and cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id";
     $tinhhinhkinhdoanh = executeQuery("localhost","root","","bannuocdb",$strSQL);
     foreach($tinhhinhkinhdoanh as $item3){
         $array3[]=$item3;
@@ -183,6 +183,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- ============================================================== -->
                     <!-- end bar chart  -->
                     <!-- ============================================================== -->
@@ -199,6 +200,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">Thống kê sản phẩm bán chạy nhất theo tháng trong năm 2021 </h5>
+                                <div class="card-body">
+                                    <!-- <div id="morris_stacked"></div> -->
+                                    <div id="bar-chart"></div>
+                                </div>
+                            </div>
+                        </div>
                     <!-- ============================================================== -->
                     <!-- end bar chart  -->
                     <!-- ============================================================== -->
@@ -209,15 +219,7 @@
                      <!-- ============================================================== -->
                         <!--stacked chart  -->
                         <!-- ============================================================== -->
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="card">
-                                <h5 class="card-header">Thống kê sản phẩm bán chạy nhất theo tháng trong năm 2021 </h5>
-                                <div class="card-body">
-                                    <!-- <div id="morris_stacked"></div> -->
-                                    <div id="bar-chart"></div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <!-- ============================================================== -->
                         <!--end stacked chart  -->
                         <!-- ============================================================== -->

@@ -29,9 +29,9 @@
 						<div class="aside">
 							<h3 class="aside-title">Thương Hiệu</h3>
 							<div class="checkbox-filter" id="chkBrand">
-
+								
                                     <?php
-										$list=['Loreal','Dior','La Roche-Posay','Hasaki','Gucci','Simple','Channel','YSL','Maybeline','Vichy'];
+										$list=['Dior','Gucci','3CE','Cetaphil','Fixderma','Laneige'];
 										foreach($list as $key => $value){
 											echo '<div class="input-checkbox">
                                             <input class="checkBrand" type="checkbox" id="'.$key.'" value="'.$value.'">
@@ -47,28 +47,30 @@
 						<!-- /aside Widget -->
 
 						<!-- aside Widget -->
+						
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Giá</h3>
-							<small>Chọn khoảng giá</small><br><br>
-							<div class="price-filter">
-							
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<br/><br>
-								<button class="btn" id="btn_gia">Áp Dụng</button>
+							<h3 class="aside-title">THỂ LOẠI</h3>
+							<div class="checkbox-filter" id="chkDv">
+									<?php
+										$list=['Kem chống nắng','Son','Sữa rữa mặt','Serum','Nước hoa','Nước tẩy trang','Son'];
+										foreach($list as $key => $value){
+											echo '<div class="input-checkbox">
+                                            <input class="checkDv" type="checkbox" id="'.'Dv'.$key.'" value="'.$value.'">
+                                            <label for="'.'Dv'.$key.'">
+                                                <span></span>
+                                                '.$value.'
+                                            </label>
+                                        </div>';
+										}
+									?>
 							</div>
 						</div>
-						<!-- /aside Widget -->			
+						<!-- /aside Widget -->
+
+						
 					</div>
 					<!-- /ASIDE -->
 
@@ -85,7 +87,8 @@
 										<option value="1">Giá cao</option>
                                         <option value="2">Giá thấp</option>
 									</select>
-								</label></div>
+								</label>
+							</div>
                                         <!--
 								<label>
 									Show:
@@ -108,9 +111,8 @@
 							
 							<!-- /product -->
 
-								
-							
 						</div>
+						
 						<!-- /store products -->
 
 						<!-- store bottom filter -->

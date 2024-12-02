@@ -1,3 +1,4 @@
+<script src="//code.tidio.co/0c3n75eip45niwm7pe24xskfuor42tjg.js" async></script>
 <style>
 	#footer {
     background-color: #F9D5CA;
@@ -84,14 +85,15 @@
         margin-bottom: 15px;
     }
 }
+
 </style>
             <div class="footer-container">
                 <div class="footer-column">
                     <h3>Thông tin liên hệ</h3>
-                    <p>Địa chỉ: 52 Trần Thị Nghi, p7, Gò Vấp, tp.HCM</p>
-                    <p>Email: Doanket@example.com</p>
+                    <p>Địa chỉ: 12 Nguyễn Văn Bảo, phường 4, Quận Gò Vấp, TP.HCM</p>
+                    <p>Email: phamducmanh@gmail.com</p>
                     <p>Điện thoại: 0387.985.987</p>
-                    <p>Nhóm Đoàn Kết</p>
+                    
                 </div>
 
                 <div class="footer-column">
@@ -106,7 +108,7 @@
 
                 <div class="footer-column">
                     <h3>Theo dõi chúng tôi</h3>
-                    <p>Theo dỗi nhóm Đoàn Kết để biết thêm nhiều chi tiết về cửa hàng</p>
+                    <p>Theo dỗi chúng tôi để biết thêm nhiều chi tiết về cửa hàng</p>
                     <!-- Chèn logo liên kết -->
                     <div class="logo-container">
                         <a href="#" target="_blank">

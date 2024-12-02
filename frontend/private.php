@@ -49,7 +49,7 @@ p{
 				
             <div id="content1">
             <h1 class="highlight-text">CHÍNH SÁCH BẢO MẬT THÔNG TIN</h1>
-            <p style="text-align: center">(Kèm theo Quyết định số……………/2023/QD-SMS)</p>
+            <p style="text-align: center">(Kèm theo Quyết định số……………/2024/QD-SMS)</p>
 
             <p>Chính sách bảo mật thông tin khách hàng tại website Đoàn Kết tuân thủ Nghị định số xxxxx của Chính phủ về thương mại điện tử Đoàn Kết tạo ra chính sách bảo mật này để minh chứng cho cam kết về sự bảo mật an toàn thông tin khách hàng tại website của Chúng tôi.</p>
 
@@ -75,14 +75,14 @@ p{
                 <li>Trong những trường hợp còn lại, chúng tôi sẽ có thông báo cụ thể cho Quý khách hàng khi phải tiết lộ thông tin cho một bên thứ ba và thông tin này chỉ được cung cấp khi được sự phản hồi đồng ý từ phía Quý khách hàng. VD: các chương trình khuyến mãi có sự hợp tác, tài trợ với các đối tác của DoanKet.com; cung cấp các thông tin giao nhận cần thiết cho các đơn vị vận chuyển.</li>
             </ul>
 
-            <h3 class="sub-headingg">5. Thông tin liên hệ:</h3>
+            <h3 class="sub-headingg">4. Thông tin liên hệ:</h3>
 
             <h4>Trường hợp có vấn đề liên quan đến thông tin cá nhân hoặc cần thay đổi, điều chỉnh các thông tin đã cung cấp, Quý khách hàng có thể liên hệ tới DoanKet theo các thông tin dưới đây:</h4>
 
-            <p>Công ty TNHH 6 thành viên</p>
+            <p>Công ty TNHH 2 thành viên</p>
             <p>- Điện thoại: 0123456789</p>
             <p>- Email: DoanKetCute@gmail.com</p>
-            <p>Chính sách này có hiệu lực từ ngày 8 tháng 11 năm 2023.Trường hợp có thay đổi, Chúng tôi sẽ thông báo về nội dung thay đổi và thời gian áp dụng Chính sách mới trên Website để Quý khách hàng được biết.</p>
+            <p>Chính sách này có hiệu lực từ ngày 8 tháng 11 năm 2024.Trường hợp có thay đổi, Chúng tôi sẽ thông báo về nội dung thay đổi và thời gian áp dụng Chính sách mới trên Website để Quý khách hàng được biết.</p>
             <p>Trân trọng cảm ơn</p>
         </div>  
         </div>

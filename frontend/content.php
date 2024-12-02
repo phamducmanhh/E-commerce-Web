@@ -1,3 +1,4 @@
+
 <?php
     $act='';
     $search='';
@@ -19,11 +20,27 @@
         if($act=='cart'){
             include('frontend/cart.php');
         }
+
         if($act=='my_bill'){
             include('frontend/my_bill.php');
         }
+        if($act=='baiviet'){
+            include('frontend/tintuc_details.php');
+        }
         if($act=='my_account'){
             include('frontend/my_account.php');
+        }
+        if($act=='tintuc'){
+            include('frontend/tintuc_list.php');
+        }
+        if($act=='lienhe'){
+            include('frontend/lienhe.php');
+        }
+        if($act=='thuonghieu'){
+            include('frontend/thuonghieu.php');
+        }
+        if($act=='xulythanhtoan'){
+            include('frontend/xulythanhtoan.php');
         }
         if($act=='bill_detail'){
             include('frontend/bill_detail.php');

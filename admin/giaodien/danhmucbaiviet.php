@@ -42,7 +42,7 @@
                                     <td><?php echo $row['tendanhmuc_baiviet'] ?></td>
                                     <td>
                                         <a href="admin.php?act=sua_dmbv&idbaiviet=<?php echo $row['id_danhmucbaiviet'] ?>">Sửa</a> |
-                                        <a href="giaodien/xulydanhmucbaiviet.php?idbaiviet=<?php echo $row['id_danhmucbaiviet'] ?>">Xóa</a>
+                                        <a href="giaodien/xulydanhmucbaiviet.php?idbaiviet=<?php echo $row['id_danhmucbaiviet'] ?>"onclick="return confirmDelete()">Xóa</a>
                                     </td>
                             
                                     <div class="clear-both"></div>
@@ -57,7 +57,11 @@
        
         <div class="clear-both"></div>
         </div>
-    
+        <script>
+function confirmDelete() {
+    return confirm("Bạn có chắc chắn muốn xóa danh mục bài viết?");
+}
+</script>
 </body>
 
 </html>

@@ -209,7 +209,9 @@
 								<a class="review-link" href="#"><?=$detailproduct['sl_da_ban']?> Đã bán</a>
 							</div>
 							<div>
-								<h3 class="product-price"><?= currency_format($detailproduct['don_gia'])?> <del class="product-old-price"><?= currency_format($detailproduct['gia_goc'])?></del></h3>
+								<h3 class="product-price"><?= currency_format($detailproduct['don_gia'])?> </h3>
+								<!-- Giá gốc -->
+								<!-- <del class="product-old-price">currency_format($detailproduct['gia_goc'])</del> -->
 								<span class="product-available">còn hàng</span>
 							</div>
 							<p class="textt"><?=$detailproduct['noi_dung']?></p>
@@ -273,7 +275,7 @@
 								<div id="tab1" class="tab-pane fade in active">
 									<div class="row">
 										<div class="col-md-12">
-											<p class="chufont"><?=$detailproduct['NoiDungChiTiet']?></p>
+											<p class="chufont"><?=$detailproduct['noi_dung']?></p>
 										</div>
 									</div>
 								</div>

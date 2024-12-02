@@ -6,10 +6,10 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
  * and open the template in the editor.
  */
   
-$vnp_TmnCode = "0YLHOIHE"; //Mã định danh merchant kết nối (Terminal Id)
-$vnp_HashSecret = "PJJYNNSDZQDWWLTLSFTGTEWKJAPSXESC"; //Secret key
+$vnp_TmnCode = "C4H18FKJ"; //Mã định danh merchant kết nối (Terminal Id)
+$vnp_HashSecret = "C8KU0LWLP6Y8T3HMVXFK7X4HPZUEQ09E"; //Secret key
 $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-$vnp_Returnurl = "http://localhost:8088/CNM/frontend/camon.php";
+$vnp_Returnurl = "http://localhost:80/CNM/index.php?act=camon";
 $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
 $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 //Config input format

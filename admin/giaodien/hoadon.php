@@ -45,11 +45,12 @@
                                 <th>Mã khách hàng</th>
                                 <th>Tổng tiền</th>
                                 <th>Ngày tạo</th>
-                                <th>Tên nhân viên</th>
+                                
                                 <th>Trạng thái</th>
                                 <th>Xem chi tiết</th>
                                 <th>Xác nhận</th>
                                 <th>Xóa</th>
+                                <th>In đơn hàng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,11 +62,11 @@
                                     <td><?= $row['id_khachhang'] ?></td>
                                     <td><?= $row['tong_tien'] ?></td>
                                     <td><?= $row['ngay_tao'] ?></td>
-                                    <td><?= $row['ten_nv'] ?></td>
                                     <td><?php if($row['trang_thai']=="1")echo "Đã xác nhận"; else echo "Chưa xác nhận";?></td>
                                     <td><a href="./admin.php?act=cthoadon&id=<?=$row['idhoadon']?>">Xem chi tiết</a></td>  
                                     <td><a href="./xulythem.php?act=xnhd&id=<?=$row['idhoadon']?>&cuser=<?=$row['ten_nv']?>&iduser=<?=$_SESSION['idnhanvien']?>">Xác nhận</a></td>  
                                     <td><?php if($row['trang_thai']=="0"){ ?><a href="./admin.php?act=xoahd&id=<?= $row['idhoadon'] ?>" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a><?php } ?>  </td>                
+                                    <td><a href="giaodien/indonhang.php?code=<?=$row['idhoadon']?>">In đơn hàng</a></td>  
                                     <div class="clear-both"></div>
                                 </tr>
                                 <?php } ?>

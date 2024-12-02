@@ -117,10 +117,7 @@
                                         <label for="female">Nữ</label>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Ngày sinh</td>
-                                    <td></td>
-                                </tr>
+                                
                                 <tr>
                                     <td></td>
                                     <td>

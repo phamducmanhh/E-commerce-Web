@@ -10,7 +10,6 @@ if(isset($_POST['dangky'])){
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
-
     // Kiểm tra độ dài của mật khẩu
     if (strlen($password) < 4 || strlen($password) > 20) {
         echo '<script language="javascript">alert("Mật khẩu phải từ 4 đến 20 ký tự!"); window.location="index.php?act=register";</script>';

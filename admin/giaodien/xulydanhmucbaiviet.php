@@ -1,4 +1,4 @@
-<p>Đây là trang xử lý</p>
+
 <?php
     include("../config.php");
     $tendanhmucbv = $_POST['tendanhmuc_bv'];

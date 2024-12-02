@@ -39,6 +39,10 @@ if (isset($_GET['tmuc'])) {
         include('taikhoan.php');
 }
 if (isset($_GET['tmuc'])) {
+    if ($_GET['tmuc'] == 'Thương hiệu')
+        include('thuonghieu_list.php');
+}
+if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Hóa đơn')
         include('hoadon.php');
 }
@@ -52,7 +56,7 @@ if (isset($_GET['tmuc'])) {
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Bài viết')
-        include('baiviet_add.php');
+        include('baiviet_show.php');
 }
 if (isset($_GET['tmuc'])) {
     if ($_GET['tmuc'] == 'Danh mục bài viết')
@@ -66,12 +70,27 @@ if (isset($_GET['act']))
     if ($_GET['act'] == 'add')
         include('product_adding.php');
 if (isset($_GET['act']))
+    if ($_GET['act'] == 'them_thuonghieu')
+        include('thuonghieu_add.php');
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'sua_thuonghieu')
+        include('thuonghieu_edit.php');
+if (isset($_GET['act']))
     if ($_GET['act'] == 'them_dmbv')
         include('danhmucbaiviet_add.php');
         
 if (isset($_GET['act']))
     if ($_GET['act'] == 'sua_dmbv')
         include('danhmucbaiviet_edit.php');
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'them_bv')
+        include('baiviet_add.php');
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'sua_bv')
+        include('baiviet_edit.php');
+if (isset($_GET['act']))
+    if ($_GET['act'] == 'xoa_bv')
+        include('baiviet_delete.php');
 if (isset($_GET['act']))
     if ($_GET['act'] == 'addss')
         echo ("them thanh cong");
@@ -88,22 +107,44 @@ if (isset($_GET['act'])) {
     if ($_GET['act'] == 'addtl')
         include('theloai_adding.php');
 }
+
 if (isset($_GET['act'])&&isset($_GET['dk'])) {
-    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'yes'))
-    echo ('<div id="error-notify" class="box-content">
-    <h2>Thành công</h2>
-    
-    <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
-</div>');
+    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'yes')) {
+        ?>
+        <script>
+            Swal.fire({
+                title: 'Thành công!',
+                text: 'Thêm thể loại mới thành công.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = './admin.php?tmuc=Thể loại';
+                }
+            });
+        </script>
+        <?php
+    }
 }
 if (isset($_GET['act'])&&isset($_GET['dk'])) {
-    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'no'))
-    echo ('<div id="error-notify" class="box-content">
-    <h2>Thất bại</h2>
-    
-    <a href="./admin.php?tmuc=Thể loại">Danh sách thể loại</a>
-</div>');
+    if (($_GET['act'] == 'addtltc')&&($_GET['dk'] == 'no')) {
+        ?>
+        <script>
+            Swal.fire({
+                title: 'Thất bại!',
+                text: 'Vui lòng nhập đầy đủ thông tin.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.history.back();
+                }
+            });
+        </script>
+        <?php
+    }
 }
+
 if (isset($_GET['act'])) {
     if ($_GET['act'] == 'suatl')
         include('theloai_editing.php');

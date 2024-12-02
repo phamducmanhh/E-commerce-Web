@@ -1,238 +1,168 @@
-<?php 
-session_start();
-if(isset($_GET['logout']))
-if($_GET['logout']=='yes'){
-    if(isset($_SESSION['nguoidung']))
-    unset($_SESSION['nguoidung']);
-    if(isset($_SESSION['cart']))
-unset($_SESSION['cart']);
-}
-
-?>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
-    <!-- <link href="../assets/vendor/fonts/circular-std/style.css" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="./css/style.css"> -->
-    <link rel="stylesheet" href="./css/fontawesome-all.css">
-    <!-- <link rel="stylesheet" href="./css/style2.css"> -->
-    <script src="https://kit.fontawesome.com/c9f5871d83.js" crossorigin "anonymous"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c9f5871d83.js" crossorigin="anonymous"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-        .background{
-            width:100%;
-            height: 100vh;
-            background-image: url('./img/thumma.jpg')
-            background-postion: center;
-            background-size: cover;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .homeee{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 75%;
-            height: 75%;
-            transform: translate(-50%, -50%);
-            background-image: url('./img/thumma.jpg');
-            background-position: center;
-            background-size: cover;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
-            margin-top: 10px;
-            border: 1px solid black;
-            border-radius: 10px;
-            border: none;
-            text-shadow: 2px 2px 2px #DB7093;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
-        .contentt
-        {
-        display: flex;
-        flex-direction: column;
-        width: 700px;
-        padding: 100px 0;
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
         }
-        .contentt a
-        {
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .login-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-group {
             position: relative;
-            text-decoration: none;
-            color: #000;
-            font-size: 3em;
-            font-weight: 700;
-            top: -40px;
-            left: 80px;
+            margin-bottom: 25px;
         }
-        .contentt h2
-        {
-            font-size: 3.5em;
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .remember-me input {
+            margin-right: 10px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(to right, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .forgot-links {
             text-align: center;
-            color: #000;
-        }
-        .contentt pre
-        {
             margin-top: 20px;
-            text-align: center;
-            font-size: 1.5em;
-            color: #000;
         }
 
-        .contentt h3 {
-            font-size: 2em;
-            text-align: center;
-            color: #000;
+        .forgot-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        
-
-        .loginnn form {
-    width: 450px;
-    position: relative;
-    padding: 100px 30px;
-    backdrop-filter: blur(20px);
-}
-
-.loginnn  h2 {
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #000;
-}
-
-.loginnn  .inputt {
-    position: relative;
-    width: 100%;
-    height: 55px; 
-    margin-bottom: 40px
-    
-    
-}
-
-.loginnn  .inputt .input11 {
-    font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid #000;
-    color: #000;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-::placeholder {
-    color: #fff;
-    font-size: 18px;
-}
-
-.loginnn  .inputt i {
-    position: relative;
-    right: -90%; 
-    bottom: 27px;
-    color: #000;
-}
-
-.loginnn  .buttonnn {
-    width: 100%;
-    height: 40px;
-    margin-bottom: 15px;
-}
-
-button {
-    width: 100%;
-    height: 40px;
-    background-color: crimson;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    font-weight: 700;
-    border-radius: 7px;
-    color: #fff;
-}
-
+        .forgot-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
     </style>
 </head>
-
 <body>
-    
-    <!-- ============================================================== -->
-    <!-- login page  -->
-    <!-- ============================================================== -->
-    <?php
-    if (isset($_GET['dn'])) {
-        if ($_GET['dn']=='true') {
-            echo '<style type="text/css">
-            #dntb {
-                display: none;
-            }
-            </style>';
-        } else if ($_GET['dn']=='false') {
-            echo '<style type="text/css">
-            #dntb {
-                display: inline;
-            }
-            </style>';
-        }
-        if ($_GET['dn']=='true') {
-            echo '<style type="text/css">
-            #dnbk {
-                display: none;
-            }
-            </style>';
-        } else if ($_GET['dn']=='khoa') {
-            echo '<style type="text/css">
-            #dnbk {
-                display: inline;
-            }
-            </style>';
-        }
-    }
-    ?>
-    <div class="background"></div>
-    <section class ="homeee">
-        <div class = "contentt">
-            <a href="#" class="logoo">Trang Quản lý</a>
-            <h2>XIN CHÀO!</h2>
-            <h3>Đây là trang dành cho Admin</h3>
-            <pre>Hãy đăng nhập với tài khoản Admin để vào trang quản lý</pre>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Admin Login</h1>
+            <p>Enter your credentials to access the admin dashboard</p>
         </div>
-
-        <div class="loginnn">
-            <h2>Đăng nhập</h2>
-        
-            <form action="xulydangnhap.php" method="POST">
-                <div class="inputt">
-                    <input class="input11" name="username" type="text" placeholder="Username" autocomplete="off">
-                    <i class="fa-solid fa-user"></i>
+        <form action="xulydangnhap.php" method="POST">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="Username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required autocomplete="off">
+            </div>
+            <div class="login-actions">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
                 </div>
-                <div class="inputt">
-                    <input class="input11" name="password" type="password" placeholder="Password" autocomplete="off">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-
-                <div class="buttonnn">
-                    <button class="btn">Submit</button>
-                </div>
-            </form>
-        </div>
-    </section>
-    
-
-    <!-- ============================================================== -->
-    <!-- end login page  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <!-- <script src="../assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.js"></script> -->
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+            <div class="forgot-links">
+                <a href="#">Forgot Username?</a> | 
+                <a href="#">Forgot Password?</a>
+            </div>
+        </form>
+    </div>
 </body>
-
 </html>

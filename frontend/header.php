@@ -1,3 +1,6 @@
+<?php
+	ob_start();
+?>
 <style>
 	#header {
   	background-color: #F9D5CA;
@@ -16,8 +19,8 @@
 		<header>	
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> 0358881703</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> vietqv2002@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> 0383363223</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> manhadmin@gmail.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> TP Hồ Chí Minh</a></li>
 					</ul>
 					<ul class="header-links pull-right">
@@ -124,11 +127,15 @@
 										?>
 										
 										<div class="cart-btns">
-											<a href="index.php?act=login">Đăng Nhập</a>
+											
 											<?php
 												if(isset($_SESSION['ten_dangnhap'])){
-													echo '<a href="frontend/logout.php">Đăng Xuất <i class="fa fa-arrow-circle-right"></i></a>';
-												}else echo '<a href="index.php?act=register">Đăng Ký</a>';
+													echo '<a href="frontend/logout.php" style="display: block; width: 100%;">Đăng Xuất <i class="fa fa-arrow-circle-right"></i></a>';
+												} else 
+												{
+													echo '<a href="index.php?act=register">Đăng Ký</a>';
+													echo '<a href="index.php?act=login">Đăng Nhập</a>';
+												}
 											?>
 											
 										</div>

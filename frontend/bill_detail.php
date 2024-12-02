@@ -69,6 +69,9 @@
                                 </tr>
                                 <?php
                                 $tongtien=0;
+                                if ($tongtien < 1000000) {
+                                    $tongtien += 15000;
+                                }
                                     $sql='SELECT * FROM cthoadon WHERE id_hoadon='.$id_HD;
                                     $listDetailBill=executeResult($sql);
                                     foreach($listDetailBill as $chitietHD){
@@ -85,6 +88,7 @@
                                 ?>
                                 
                             </table><br><br>
+                            
                             <table width=100%  style="background-color:#f2f1f194;">
                                 <tr>
                                     <td align=right><strong>Tạm tính</strong></td>
@@ -92,7 +96,11 @@
                                 </tr>
                                 <tr>
                                     <td align=right><strong>Phí vận chuyển</strong></td>
-                                    <td align=right>FREE</td>
+                                    <td align=right><?php if($tongtien<100000){
+                                        echo "FREE";
+                                    }else{
+                                        echo "150000";
+                                    } ?></td>
                                 </tr>
                                 <tr>
                                     <td align=right><strong>Tổng cộng</strong></td>

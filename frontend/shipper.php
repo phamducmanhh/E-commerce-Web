@@ -21,7 +21,7 @@
     margin-bottom: 5px;
     border-bottom: 2px dashed #43c4e4;
     padding-bottom: 5px; /* Để tránh việc chữ chạm vào đường gạch */
-    
+}
 
 .sub-headingg{
     color: #11b4dd;

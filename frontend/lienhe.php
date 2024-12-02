@@ -42,7 +42,7 @@
                 </div>
                 <div class="col col-md-9">
                     
-                    <form style="border: 2px solid #ccc;" id="form" width="50%">
+                    <form  method="POST" style="border: 2px solid #ccc;" id="form" width="50%" action="frontend/xulylienhe.php">
                     <div style="margin: 10px 10px;">
                     <legend>
                         <center>
@@ -110,7 +110,7 @@
 
     <!-- Custom script - Các file js do mình tự viết -->
     <script src="../assets/js/app.js"></script>
-    <script>
+    <!-- <script>
         "use strict";
             const form = document.getElementById("form");
             form.addEventListener("submit", function (event) { });
@@ -132,7 +132,7 @@
     // If everything passes, show success message
     alert("Bạn đã gửi phản hồi thành công");
 });
-        </script>
+        </script> -->
     
 </body>
 
