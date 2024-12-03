@@ -1,250 +1,344 @@
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- Connect Database -->
-<!-- Kết nối Database -->
-<!-- -------------------------------------------------------------------------------------------------- -->
 <?php
-    function DocDB($host,$user,$password,$db){
-        $con = mysqli_connect($host,$user,$password,$db);
-        
-        $strSQL= "SELECT * FROM hoadon";
-        $result=mysqli_query($con,$strSQL);
-        mysqli_close($con);
-        return $result;
-    }
-    function executeQuery($host,$user,$password,$db,$strSQL){
-        $con = mysqli_connect($host,$user,$password,$db);
-        $result=mysqli_query($con,$strSQL);
-        mysqli_close($con);
-        return $result;
-    }
-?>
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
+// Database Connection Configuration
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$db = 'bannuocdb';
 
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- SQL -->
-<!-- Truy vấn CSDL -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-
-<?php
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Tổng tiền hóa đơn theo khách hàng từ ngày 2021-05-01 đến 2021-05-31
-    $strSQL= "SELECT id_khachhang,sum(tong_tien) FROM hoadon WHERE ngay_tao BETWEEN '2024-04-06' AND '2024-05-19' GROUP BY id_khachhang";
-    $tong = executeQuery("localhost","root","","bannuocdb",$strSQL);
-    foreach($tong as $item){
-        $array[]=$item;
+// Database Connection and Query Execution Function
+function executeQuery($host, $user, $password, $db, $strSQL) {
+    $con = mysqli_connect($host, $user, $password, $db);
+    if (!$con) {
+        die("Database connection failed: " . mysqli_connect_error());
     }
-    for($i=0;$i<count($array);$i++){
-        $labelarray[]=$array[$i]["id_khachhang"];
-        $dataarray[]=$array[$i]["sum(tong_tien)"];
-    }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    //Thống kê tổng tiền hóa dơn theo thể loại trong tháng 5
-    $strSQL2= "SELECT sanpham.id_the_loai as id, SUM(cthoadon.so_luong*sanpham.don_gia ) AS tong FROM cthoadon, hoadon,sanpham WHERE month(hoadon.ngay_tao)=3  and hoadon.id=cthoadon.id_hoadon AND cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id_the_loai";
-    $month2='3';
-    if(isset($_GET['month2'])){
-        $month2 = $_GET['month2'];
-        if($month2!='')
-        if($month2>=1 && $month2<=12){
-            $strSQL2= "SELECT sanpham.id_the_loai as id, SUM(cthoadon.so_luong*sanpham.don_gia ) AS tong FROM cthoadon, hoadon,sanpham WHERE month(hoadon.ngay_tao) = '$month2'  and hoadon.id=cthoadon.id_hoadon AND cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id_the_loai";
-        }
-    }
-    $theloai = executeQuery("localhost","root","","bannuocdb",$strSQL2);
-    $m=mysqli_fetch_array($theloai);
-    if($m!=NULL){
-        foreach($theloai as $item2){
-            $array2[]=$item2;
-        }
-        for($l=0;$l<count($array2);$l++){
-            $labelarray2[]=$array2[$l]["id"];
-            $dataarray2[]=$array2[$l]["tong"];
-        }
-    }
-    else{
-        $labelarray2[]=[];
-        $dataarray2[]=[];
-    }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Thống kê tình hình kinh doanh trong một khoảng thời gian của các sản phẩm thuộc một loại / tất cả sản phẩm.
-    $strSQL= "SELECT sanpham.id, SUM(cthoadon.so_luong*sanpham.don_gia) as tongtien FROM hoadon,cthoadon,sanpham WHERE hoadon.ngay_tao BETWEEN '2024-04-06' AND '2024-05-31' AND hoadon.id=cthoadon.id_hoadon and cthoadon.id_sanpham=sanpham.id GROUP by sanpham.id";
-    $tinhhinhkinhdoanh = executeQuery("localhost","root","","bannuocdb",$strSQL);
-    foreach($tinhhinhkinhdoanh as $item3){
-        $array3[]=$item3;
-    }
-    for($t=0;$t<count($array3);$t++){
-        $labelarray3[]=$array3[$t]["id"];
-        $dataarray3[]=$array3[$t]["tongtien"];
-    }
-    //////////////////////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Thống kế sản phẩm bán chạy theo khoảng thời gian
-    $strSQL= "SELECT tong.id_sanpham,maxtong.max,maxtong.month
-    FROM
-        (
-        SELECT max(mot.tong) as max,mot.month
-        FROM (
-             SELECT cthoadon.id_sanpham,sum(cthoadon.so_luong*sanpham.don_gia) as tong,month(hoadon.ngay_tao) as month FROM cthoadon,hoadon,sanpham WHERE cthoadon.id_hoadon=hoadon.id AND 	cthoadon.id_sanpham=sanpham.id GROUP BY month(hoadon.ngay_tao),cthoadon.id_sanpham 
-             ) as mot
-        GROUP by mot.month
-        ) as maxtong
-        ,
-        (
-        SELECT cthoadon.id_sanpham,sum(cthoadon.so_luong*sanpham.don_gia) as tong,month(hoadon.ngay_tao) as month FROM cthoadon,hoadon,sanpham WHERE cthoadon.id_hoadon=hoadon.id AND cthoadon.id_sanpham=sanpham.id GROUP BY month(hoadon.ngay_tao),cthoadon.id_sanpham
-        ) as tong
-    WHERE maxtong.max=tong.tong and maxtong.month= tong.month";
-
-    $sanphambanchay = executeQuery("localhost","root","","bannuocdb",$strSQL);
-    
-    foreach($sanphambanchay as $item4){
-        $array4[]=$item4;
-    }
-    for($t=0;$t<count($array4);$t++){
-        $masp[]=$array4[$t]["id_sanpham"];
-        $max[]=$array4[$t]["max"];
-        $month[]= $array4[$t]["month"];
-
-    }
-?>
-<!-- ----------------------------------------------------------------------- -->
-<!-- Parse Javascript -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<script>
-    var dataarray = <?php echo json_encode($dataarray); ?>;
-    var labelarray = <?php echo json_encode($labelarray); ?>;
-
-    var dataarray2 = <?php echo json_encode($dataarray2); ?>;
-    var labelarray2 = <?php echo json_encode($labelarray2); ?>;    
-    
-    var dataarray3 = <?php echo json_encode($dataarray3); ?>;
-    var labelarray3 = <?php echo json_encode($labelarray3); ?>;
-    
-    var masp = <?php echo json_encode($masp); ?>;
-    var max = <?php echo json_encode($max); ?>;
-    var month =<?php echo json_encode($month); ?>;
-    
-
-</script>
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!-- Thống kê  -->
-<!-- -------------------------------------------------------------------------------------------------- -->
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="c3charts/c3.css">
-        <link rel="stylesheet" href="js/morris-bundle/morris.css">
-    </head>
-    <body style="width: 100%; height: 100%">
-<div class="wrapper">
-
-    <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- bar chart  -->
-                    <!-- ============================================================== -->
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <h5 class="card-header">Tổng tiền hóa đơn theo khách hàng từ ngày 2021-05-01 đến 2021-05-31</h5>
-                            <div class="card-body">
-                                <canvas id="chartjs_bar"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end bar chart  -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- bar chart  -->
-                    <!-- ============================================================== -->
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card">                        
-                            <form action="" onsubmit="return kiemtra2();">
-                                <input id="txmonth2" type="text" name="month2" placeholder="Tháng" maxlength="2" style="width:60px;" >
-                                <input id="btchart2" type="submit" name="submit" value="Đi">
-                            </form>
-                            <h5 class="card-header">Thống kê tổng tiền hóa đơn theo thể loại trong tháng <?php echo "$month2"?></h5>
-                            
-                            <div class="card-body">
-                                <canvas id="chartjs_bar2"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- ============================================================== -->
-                    <!-- end bar chart  -->
-                    <!-- ============================================================== -->
-    </div>
-    <div class="row">
-                    <!-- ============================================================== -->
-                    <!-- bar chart  -->
-                    <!-- ============================================================== -->
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <h5 class="card-header">Thống kê tình hình doanh thu từ ngày 2021-05-01 đến 2021-05-31</h5>
-                            <div class="card-body">
-                                <canvas id="chartjs_bar3"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="card">
-                                <h5 class="card-header">Thống kê sản phẩm bán chạy nhất theo tháng trong năm 2021 </h5>
-                                <div class="card-body">
-                                    <!-- <div id="morris_stacked"></div> -->
-                                    <div id="bar-chart"></div>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- ============================================================== -->
-                    <!-- end bar chart  -->
-                    <!-- ============================================================== -->
-                
-    </div>
-
-    <div class="row">
-                     <!-- ============================================================== -->
-                        <!--stacked chart  -->
-                        <!-- ============================================================== -->
-                        
-                        <!-- ============================================================== -->
-                        <!--end stacked chart  -->
-                        <!-- ============================================================== -->
-    </div>
-                
-    </div>
-    </div>
-    </body>
-    <script src="js/jquery/jquery-3.3.1.min.js"></script>
-    <script src="js/charts-bundle/Chart.bundle.js"></script>
-    <script src="js/charts-bundle/chartjs.js"></script>
-    
-    <script src="js/morris-bundle/raphael.min.js"></script>
-    <script src="js/morris-bundle/morris.js"></script>
-    <script src="js/morris-bundle/Morrisjs.js"></script>
-    <script>
-    function kiemtra2(){
-    var check =/^1[0-2]*|[2-9]$/g;
-    //var check =/^[0-9]*$/g;
-    
-    var nam = document.getElementById("txmonth2").value;
-    if(check.test(nam))
-        return true;
-    else 
-    return false;
+    $result = mysqli_query($con, $strSQL);
+    mysqli_close($con);
+    return $result;
 }
-    </script>
+
+// Route Handling and Month Selection
+$month2 = date('m'); // Default to current month
+if (isset($_GET['month2'])) {
+    // Validate month input
+    $month2 = filter_var($_GET['month2'], FILTER_VALIDATE_INT, 
+        ['options' => ['min_range' => 1, 'max_range' => 12]]) 
+        ?: date('m');
+}
+
+// Queries for Dashboard Charts
+$queries = [
+    'customerTotals' => "SELECT id_khachhang, SUM(tong_tien) AS total 
+        FROM hoadon 
+        WHERE MONTH(ngay_tao) = '$month2' 
+        GROUP BY id_khachhang",
+    
+    'categoryTotals' => "SELECT theloai.ten_tl, 
+        SUM(cthoadon.so_luong * sanpham.don_gia) AS tong 
+        FROM cthoadon 
+        JOIN hoadon ON hoadon.id = cthoadon.id_hoadon 
+        JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
+        JOIN theloai ON sanpham.id_the_loai = theloai.id
+        WHERE MONTH(hoadon.ngay_tao) = '$month2' 
+        GROUP BY theloai.ten_tl",
+    
+    'businessOverview' => "SELECT sanpham.id, 
+        SUM(cthoadon.so_luong * sanpham.don_gia) as tongtien 
+        FROM hoadon 
+        JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon 
+        JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
+        WHERE MONTH(hoadon.ngay_tao) = '$month2' 
+        GROUP BY sanpham.id",
+    
+    'topProducts' => "SELECT 
+    sp.id_sanpham, 
+    sanpham.ten_sp as product_name, 
+    MAX(sp.tong) as max_tong
+    FROM (
+        SELECT cthoadon.id_sanpham, 
+               SUM(cthoadon.so_luong * sanpham.don_gia) as tong
+        FROM cthoadon 
+        JOIN hoadon ON cthoadon.id_hoadon = hoadon.id 
+        JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
+        WHERE MONTH(hoadon.ngay_tao) = '$month2'
+        GROUP BY cthoadon.id_sanpham
+    ) as sp
+    JOIN sanpham ON sp.id_sanpham = sanpham.id
+    GROUP BY sp.id_sanpham, sanpham.ten_sp"
+];
+
+// Execute Queries and Process Results
+$results = [];
+foreach ($queries as $key => $query) {
+    $result = executeQuery($host, $user, $password, $db, $query);
+    $results[$key] = [];
+    
+    while($item = mysqli_fetch_assoc($result)) {
+        switch($key) {
+            case 'customerTotals':
+                $results[$key]['labels'][] = $item['id_khachhang'];
+                $results[$key]['data'][] = $item['total'];
+                break;
+            case 'categoryTotals':
+                $results[$key]['labels'][] = $item['ten_tl'];
+                $results[$key]['data'][] = $item['tong'];
+                break;
+            case 'businessOverview':
+                $results[$key]['labels'][] = $item['id'];
+                $results[$key]['data'][] = $item['tongtien'];
+                break;
+            case 'topProducts':
+                $results[$key]['labels'][] = $item['product_name'];
+                $results[$key]['data'][] = $item['max_tong'];
+                break;
+        }
+    }
+}
+
+// Check for AJAX Request
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
+          && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+
+if($isAjax) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'customerTotals' => $results['customerTotals'],
+        'categoryTotals' => $results['categoryTotals'],
+        'businessOverview' => $results['businessOverview'],
+        'topProducts' => $results['topProducts'],
+        'currentMonth' => $month2
+    ]);
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Báo Cáo Thống Kê - Tháng <?php echo $month2; ?></title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-12 d-flex align-items-center">
+            <select id="monthSelector" class="form-control w-25 mr-2">
+                <?php for($m=1; $m<=12; $m++): ?>
+                    <option value="<?php echo $m; ?>" <?php echo ($m == $month2) ? 'selected' : ''; ?>>
+                        Tháng <?php echo $m; ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+            <button id="searchButton" class="btn btn-primary ml-2">Tìm Kiếm</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Tổng Tiền Hóa Đơn Theo Khách Hàng</div>
+                <div class="card-body chart-container">
+                    <canvas id="customerChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Thống Kê Tổng Tiền Theo Thể Loại</div>
+                <div class="card-body chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Thống Kê Tình Hình Doanh Thu</div>
+                <div class="card-body chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Sản Phẩm Bán Chạy Nhất</div>
+                <div class="card-body chart-container">
+                    <canvas id="topProductChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    const colorPalettes = {
+        customerChart: 'rgba(75, 192, 192, 0.6)',
+        categoryChart: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)'
+        ],
+        revenueChart: 'rgba(255, 99, 132, 1)',
+        topProductChart: 'rgba(54, 162, 235, 0.6)'
+    };
+
+    let customerChart, categoryChart, revenueChart, topProductChart;
+
+    function initCharts(data) {
+        // Customer Chart
+        if (customerChart) customerChart.destroy();
+        customerChart = new Chart(document.getElementById('customerChart'), {
+            type: 'bar',
+            data: {
+                labels: data.customerTotals.labels,
+                datasets: [{
+                    label: 'Tổng Tiền',
+                    data: data.customerTotals.data,
+                    backgroundColor: colorPalettes.customerChart
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Category Chart
+        if (categoryChart) categoryChart.destroy();
+        categoryChart = new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: data.categoryTotals.labels,
+                datasets: [{
+                    data: data.categoryTotals.data,
+                    backgroundColor: colorPalettes.categoryChart
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Revenue Chart
+        if (revenueChart) revenueChart.destroy();
+        revenueChart = new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: data.businessOverview.labels,
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: data.businessOverview.data,
+                    borderColor: colorPalettes.revenueChart,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Top Product Chart
+        if (topProductChart) topProductChart.destroy();
+        topProductChart = new Chart(document.getElementById('topProductChart'), {
+            type: 'bar',
+            data: {
+                labels: data.topProducts.labels,
+                datasets: [{
+                    label: 'Doanh Số Sản Phẩm',
+                    data: data.topProducts.data,
+                    backgroundColor: colorPalettes.topProductChart
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    // Initial Chart Loading
+    initCharts({
+        customerTotals: {
+            labels: <?php echo json_encode($results['customerTotals']['labels'] ?? []); ?>,
+            data: <?php echo json_encode($results['customerTotals']['data'] ?? []); ?>
+        },
+        categoryTotals: {
+            labels: <?php echo json_encode($results['categoryTotals']['labels'] ?? []); ?>,
+            data: <?php echo json_encode($results['categoryTotals']['data'] ?? []); ?>
+        },
+        businessOverview: {
+            labels: <?php echo json_encode($results['businessOverview']['labels'] ?? []); ?>,
+            data: <?php echo json_encode($results['businessOverview']['data'] ?? []); ?>
+        },
+        topProducts: {
+            labels: <?php echo json_encode($results['topProducts']['labels'] ?? []); ?>,
+            data: <?php echo json_encode($results['topProducts']['data'] ?? []); ?>
+        }
+    });
+
+    // Search Button Handler
+    function loadMonthlyData() {
+        const selectedMonth = $('#monthSelector').val();
+        
+        // Construct URL
+        const currentPath = window.location.pathname.replace(/\/[^/]+$/, '');
+        const newUrl = `${currentPath}/admin.php?muc=15&tmuc=Thống%20kê&month2=${selectedMonth}`;
+        
+        // Update browser history
+        history.pushState({}, '', newUrl);
+        
+        $.ajax({
+            url: window.location.href,
+            method: 'GET',
+            data: { month2: selectedMonth },
+            dataType: 'json',
+            success: function(response) {
+                if (response && response.customerTotals) {
+                    initCharts(response);
+                    document.title = 'Báo Cáo Thống Kê - Tháng ' + selectedMonth;
+                } else {
+                    alert('Không tìm thấy dữ liệu cho tháng này');
+                }
+            },
+            error: function(xhr, status, error) {
+    console.error("Chi tiết lỗi:", xhr.responseText, status, error);
+    // Directly attempt to parse and render the response
+    try {
+        const response = JSON.parse(xhr.responseText);
+        if (response && response.customerTotals) {
+            initCharts(response);
+            document.title = 'Báo Cáo Thống Kê - Tháng ' + selectedMonth;
+        }
+    } catch(e) {
+        // If parsing fails, silently fail without user alert
+        console.error('Parsing error:', e);
+    }
+}
+        });
+    }
+
+    // Attach handler to search button
+    $('#searchButton').click(loadMonthlyData);
+
+    // Allow Enter key in month selector
+    $('#monthSelector').keypress(function(e) {
+        if (e.which == 13) { // Enter key
+            loadMonthlyData();
+        }
+    });
+});
+</script>
+</body>
 </html>

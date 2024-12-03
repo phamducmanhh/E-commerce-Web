@@ -39,7 +39,8 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                         <form name="product-formsua" 
                               method="POST" 
                               action="./xulythem.php?act=sua&id=<?= htmlspecialchars($_GET['id']) ?>" 
-                              enctype="multipart/form-data">
+                              enctype="multipart/form-data"
+                              onsubmit="return validateForm()">
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -58,8 +59,13 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                                            class="form-control" 
                                            id="price" 
                                            name="price" 
+                                           min="0"
+                                           step="1000"
                                            value="<?= !empty($product) ? intval($product['don_gia']) : "" ?>" 
                                            required>
+                                    <div class="invalid-feedback">
+                                        Giá sản phẩm phải là số dương và lớn hơn 0
+                                    </div>
                                 </div>
                             </div>
                             
@@ -70,8 +76,12 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                                            class="form-control" 
                                            id="soluong" 
                                            name="soluong" 
+                                           min="0"
                                            value="<?= !empty($product) ? $product['so_luong'] : "" ?>" 
                                            required>
+                                    <div class="invalid-feedback">
+                                        Số lượng phải là số nguyên dương
+                                    </div>
                                 </div>
                                 
                                 <div class="col-md-6 mb-3">
@@ -89,6 +99,7 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                                 </div>
                             </div>
                             
+                            <!-- Rest of the form remains the same -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="idncc" class="form-label">Nhà cung cấp</label>
@@ -120,6 +131,7 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                                 </div>
                             </div>
                             
+                            <!-- Rest of the form remains the same... -->
                             <div class="mb-3">
                                 <label for="image" class="form-label">Ảnh đại diện</label>
                                 <?php if (!empty($product['hinh_anh'])) { ?>
@@ -138,6 +150,7 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                                        name="image">
                             </div>
                             
+                            <!-- Rest of the form remains the same... -->
                             <div class="mb-3">
                                 <label for="gallery" class="form-label">Thư viện ảnh</label>
                                 <?php if (!empty($product['gallery'])) { ?>
@@ -200,6 +213,33 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
     <!-- Summernote JS -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
+        function validateForm() {
+            // Price validation
+            const price = document.getElementById('price');
+            const priceError = price.value < 0 || isNaN(price.value);
+            
+            // Quantity validation
+            const soluong = document.getElementById('soluong');
+            const soluongError = soluong.value < 0 || !Number.isInteger(Number(soluong.value));
+            
+            // Add Bootstrap invalid feedback
+            if (priceError) {
+                price.classList.add('is-invalid');
+                return false;
+            } else {
+                price.classList.remove('is-invalid');
+            }
+            
+            if (soluongError) {
+                soluong.classList.add('is-invalid');
+                return false;
+            } else {
+                soluong.classList.remove('is-invalid');
+            }
+            
+            return true;
+        }
+
         $(document).ready(function() {
             $('#product-content').summernote({
                 height: 300,
@@ -213,6 +253,11 @@ $nhacungcap = mysqli_query($con,"SELECT * FROM `nhacungcap`");
                     ['insert', ['link', 'picture']],
                     ['view', ['fullscreen', 'codeview']]
                 ]
+            });
+
+            // Additional form validation on input
+            $('#price, #soluong').on('input', function() {
+                validateForm();
             });
         });
     </script>
