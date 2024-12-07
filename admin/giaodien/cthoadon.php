@@ -8,7 +8,11 @@
         $totalRecords = mysqli_query($con, "SELECT * FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id`  AND `id_hoadon`=" .$_GET['id']. "");
         $totalRecords = $totalRecords->num_rows;
         $totalPages = ceil($totalRecords / $item_per_page);
-        $cthoadon = mysqli_query($con, "SELECT `id_hoadon`, `id_sanpham`, `cthoadon`.`so_luong`,`sanpham`.`id`,`ten_sp`,`don_gia`  FROM `cthoadon`,`sanpham` WHERE `id_sanpham`=`sanpham`.`id` AND `id_hoadon`=" .$_GET['id']. " ORDER BY `cthoadon`.`id_hoadon` ASC LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $cthoadon = mysqli_query($con, "SELECT sp.ten_sp, ct.so_luong, sp.don_gia  
+FROM cthoadon ct
+JOIN sanpham sp ON ct.id_sanpham = sp.id
+WHERE ct.id_hoadon = " . $_GET['id'] . "
+LIMIT " . $item_per_page . " OFFSET " . $offset);
         mysqli_close($con);
     ?>
 <button ><a href="./admin.php?muc=1&tmuc=Hóa%20đơn"><-- Lùi</a></button>

@@ -169,7 +169,7 @@
     ?>
 	<input type="hidden" name="" value="<?php echo $tongtien_vnd ?>" id="tongtien">
 	<!-- <div id="paypal-button-container"></div> -->
-	<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo.php">
+	<!-- <form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo.php">
       <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">
       <input type="submit" name="momo" value="Thanh toán MOMO QRcode" class="btn btn-danger">
     </form>
@@ -177,7 +177,7 @@
 	<form class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded" action="frontend/xulythanhtoanmomo_atm.php">
       <input type="hidden" value="<?php echo $tongtien_vnd ?>" name = "tongtien_vnd">  
       <input type="submit" name="momo" value="Thanh toán MOMO ATM" class="btn btn-danger">
-    </form>
+    </form> -->
 	
 
 	<?php

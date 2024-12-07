@@ -62,105 +62,25 @@ if (isset($_GET['vnp_Amount'])) {
             );
             $cart_query = $stmt->execute();
 
-            if($cart_query) {
-                // Create order
-                date_default_timezone_set("Asia/Ho_Chi_Minh");
-                $ngay_tao_HD = date('Y/m/d H:i:s');
-                
-                // Insert order header
-                $sql = 'INSERT INTO hoadon (id_khachhang, tong_tien, ngay_tao) VALUES (?, ?, ?)';
-                $stmt = $mysqli->prepare($sql);
-                $stmt->bind_param("ids", $infoCus['id'], $tong_tien, $ngay_tao_HD);
-                $stmt->execute();
-                $id_hoadon = $mysqli->insert_id;
+            // Commit transaction
+            $mysqli->commit();
 
-                // Only process cart items if cart exists
-                if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-                    foreach($cart as $key => $value){
-                        // Check product availability
-                        $sql = 'SELECT so_luong, sl_da_ban FROM sanpham WHERE id = ?';
-                        $stmt = $mysqli->prepare($sql);
-                        $stmt->bind_param("i", $key);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        $product = $result->fetch_assoc();
-                        
-                        if($product['so_luong'] < $value['qty']) {
-                            throw new Exception('Sản phẩm không đủ số lượng');
-                        }
-
-                        // Insert order detail
-                        $sql = 'INSERT INTO cthoadon (id_hoadon, id_sanpham, so_luong) VALUES (?, ?, ?)';
-                        $stmt = $mysqli->prepare($sql);
-                        $stmt->bind_param("iid", $id_hoadon, $key, $value['qty']);
-                        $stmt->execute();
-
-                        // Update product quantity
-                        $new_quantity = $product['so_luong'] - $value['qty'];
-                        $new_sold = $product['sl_da_ban'] + $value['qty'];
-                        
-                        $sql = 'UPDATE sanpham SET so_luong = ?, sl_da_ban = ? WHERE id = ?';
-                        $stmt = $mysqli->prepare($sql);
-                        $stmt->bind_param("iii", $new_quantity, $new_sold, $key);
-                        $stmt->execute();
-                    }
+            // Success Sweet Alert and redirect
+            ?>
+            <script>
+            Swal.fire({
+                title: 'Thanh toán thành công',
+                text: 'Đơn hàng của bạn đã được xác nhận',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '?index.php&act=my_bill';
                 }
-
-                // Update customer total purchase amount
-                $sql = 'SELECT tong_tien_muahang FROM khachhang WHERE id = ?';
-                $stmt = $mysqli->prepare($sql);
-                $stmt->bind_param("i", $infoCus['id']);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $current_total = $result->fetch_assoc()['tong_tien_muahang'];
-                
-                $new_total = $current_total + $tong_tien;
-                $sql = 'UPDATE khachhang SET tong_tien_muahang = ? WHERE id = ?';
-                $stmt = $mysqli->prepare($sql);
-                $stmt->bind_param("di", $new_total, $infoCus['id']);
-                $stmt->execute();
-
-                // Update category product counts
-                $sql = 'SELECT * FROM theloai';
-                $result = $mysqli->query($sql);
-                while($category = $result->fetch_assoc()) {
-                    $sql = 'SELECT SUM(so_luong) as total FROM sanpham WHERE id_the_loai = ?';
-                    $stmt = $mysqli->prepare($sql);
-                    $stmt->bind_param("i", $category['id']);
-                    $stmt->execute();
-                    $total_products = $stmt->get_result()->fetch_assoc()['total'];
-                    
-                    $sql = 'UPDATE theloai SET tong_sp = ? WHERE id = ?';
-                    $stmt = $mysqli->prepare($sql);
-                    $stmt->bind_param("ii", $total_products, $category['id']);
-                    $stmt->execute();
-                }
-
-                // Commit transaction
-                $mysqli->commit();
-
-                // Clear shopping cart and order session
-                unset($_SESSION['cart']);
-                unset($_SESSION['id_hoadon']);
-                
-                // Show success message
-                ?>
-                <script>
-                Swal.fire({
-                    title: 'Giao dịch thanh toán bằng VNPAY thành công',
-                    text: 'Vui lòng vào trang Lịch sử đơn hàng để xem chi tiết đơn hàng',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "?index.php&act=my_bill";
-                    }
-                });
-                </script>
-                <?php
-            } else {
-                throw new Exception('Lỗi khi lưu thông tin thanh toán');
-            }
+            });
+            </script>
+            <?php
+            
         } catch (Exception $e) {
             // Rollback transaction on error
             $mysqli->rollback();
