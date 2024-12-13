@@ -16,20 +16,25 @@ function executeQuery($host, $user, $password, $db, $strSQL) {
     return $result;
 }
 
-// Route Handling and Month Selection
+// Route Handling and Month/Year Selection
 $month2 = date('m'); // Default to current month
-if (isset($_GET['month2'])) {
-    // Validate month input
+$year2 = date('Y'); // Default to current year
+
+if (isset($_GET['month2']) && isset($_GET['year2'])) {
+    // Validate month and year inputs
     $month2 = filter_var($_GET['month2'], FILTER_VALIDATE_INT, 
         ['options' => ['min_range' => 1, 'max_range' => 12]]) 
         ?: date('m');
+    $year2 = filter_var($_GET['year2'], FILTER_VALIDATE_INT, 
+        ['options' => ['min_range' => 2000, 'max_range' => date('Y')]]) 
+        ?: date('Y');
 }
 
-// Queries for Dashboard Charts
+// Queries for Dashboard Charts - Updated to include year filtering
 $queries = [
     'customerTotals' => "SELECT id_khachhang, SUM(tong_tien) AS total 
         FROM hoadon 
-        WHERE MONTH(ngay_tao) = '$month2' 
+        WHERE MONTH(ngay_tao) = '$month2' AND YEAR(ngay_tao) = '$year2'
         GROUP BY id_khachhang",
     
     'categoryTotals' => "SELECT theloai.ten_tl, 
@@ -38,7 +43,7 @@ $queries = [
         JOIN hoadon ON hoadon.id = cthoadon.id_hoadon 
         JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
         JOIN theloai ON sanpham.id_the_loai = theloai.id
-        WHERE MONTH(hoadon.ngay_tao) = '$month2' 
+        WHERE MONTH(hoadon.ngay_tao) = '$month2' AND YEAR(hoadon.ngay_tao) = '$year2'
         GROUP BY theloai.ten_tl",
     
     'businessOverview' => "SELECT sanpham.id, 
@@ -46,7 +51,7 @@ $queries = [
         FROM hoadon 
         JOIN cthoadon ON hoadon.id = cthoadon.id_hoadon 
         JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
-        WHERE MONTH(hoadon.ngay_tao) = '$month2' 
+        WHERE MONTH(hoadon.ngay_tao) = '$month2' AND YEAR(hoadon.ngay_tao) = '$year2'
         GROUP BY sanpham.id",
     
     'topProducts' => "SELECT 
@@ -59,7 +64,7 @@ $queries = [
         FROM cthoadon 
         JOIN hoadon ON cthoadon.id_hoadon = hoadon.id 
         JOIN sanpham ON cthoadon.id_sanpham = sanpham.id 
-        WHERE MONTH(hoadon.ngay_tao) = '$month2'
+        WHERE MONTH(hoadon.ngay_tao) = '$month2' AND YEAR(hoadon.ngay_tao) = '$year2'
         GROUP BY cthoadon.id_sanpham
     ) as sp
     JOIN sanpham ON sp.id_sanpham = sanpham.id
@@ -105,7 +110,8 @@ if($isAjax) {
         'categoryTotals' => $results['categoryTotals'],
         'businessOverview' => $results['businessOverview'],
         'topProducts' => $results['topProducts'],
-        'currentMonth' => $month2
+        'currentMonth' => $month2,
+        'currentYear' => $year2
     ]);
     exit;
 }
@@ -114,7 +120,7 @@ if($isAjax) {
 <html lang="vi">
 <head>
     <meta charset="utf-8">
-    <title>Báo Cáo Thống Kê - Tháng <?php echo $month2; ?></title>
+    <title>Báo Cáo Thống Kê - Tháng <?php echo $month2; ?> Năm <?php echo $year2; ?></title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -133,6 +139,15 @@ if($isAjax) {
                 <?php for($m=1; $m<=12; $m++): ?>
                     <option value="<?php echo $m; ?>" <?php echo ($m == $month2) ? 'selected' : ''; ?>>
                         Tháng <?php echo $m; ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+            <select id="yearSelector" class="form-control w-25 ml-2">
+                <?php 
+                $currentYear = date('Y');
+                for($y = $currentYear - 5; $y <= $currentYear; $y++): ?>
+                    <option value="<?php echo $y; ?>" <?php echo ($y == $year2) ? 'selected' : ''; ?>>
+                        Năm <?php echo $y; ?>
                     </option>
                 <?php endfor; ?>
             </select>
@@ -291,10 +306,11 @@ $(document).ready(function() {
     // Search Button Handler
     function loadMonthlyData() {
         const selectedMonth = $('#monthSelector').val();
+        const selectedYear = $('#yearSelector').val();
         
         // Construct URL
         const currentPath = window.location.pathname.replace(/\/[^/]+$/, '');
-        const newUrl = `${currentPath}/admin.php?muc=15&tmuc=Thống%20kê&month2=${selectedMonth}`;
+        const newUrl = `${currentPath}/admin.php?muc=15&tmuc=Thống%20kê&month2=${selectedMonth}&year2=${selectedYear}`;
         
         // Update browser history
         history.pushState({}, '', newUrl);
@@ -302,38 +318,39 @@ $(document).ready(function() {
         $.ajax({
             url: window.location.href,
             method: 'GET',
-            data: { month2: selectedMonth },
+            data: { 
+                month2: selectedMonth,
+                year2: selectedYear 
+            },
             dataType: 'json',
             success: function(response) {
                 if (response && response.customerTotals) {
                     initCharts(response);
-                    document.title = 'Báo Cáo Thống Kê - Tháng ' + selectedMonth;
+                    document.title = `Báo Cáo Thống Kê - Tháng ${selectedMonth} Năm ${selectedYear}`;
                 } else {
-                    alert('Không tìm thấy dữ liệu cho tháng này');
+                    alert('Không tìm thấy dữ liệu cho tháng và năm này');
                 }
             },
             error: function(xhr, status, error) {
-    console.error("Chi tiết lỗi:", xhr.responseText, status, error);
-    // Directly attempt to parse and render the response
-    try {
-        const response = JSON.parse(xhr.responseText);
-        if (response && response.customerTotals) {
-            initCharts(response);
-            document.title = 'Báo Cáo Thống Kê - Tháng ' + selectedMonth;
-        }
-    } catch(e) {
-        // If parsing fails, silently fail without user alert
-        console.error('Parsing error:', e);
-    }
-}
+                console.error("Chi tiết lỗi:", xhr.responseText, status, error);
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response && response.customerTotals) {
+                        initCharts(response);
+                        document.title = `Báo Cáo Thống Kê - Tháng ${selectedMonth} Năm ${selectedYear}`;
+                    }
+                } catch(e) {
+                    console.error('Parsing error:', e);
+                }
+            }
         });
     }
 
     // Attach handler to search button
     $('#searchButton').click(loadMonthlyData);
 
-    // Allow Enter key in month selector
-    $('#monthSelector').keypress(function(e) {
+    // Allow Enter key in month/year selectors
+    $('#monthSelector, #yearSelector').keypress(function(e) {
         if (e.which == 13) { // Enter key
             loadMonthlyData();
         }

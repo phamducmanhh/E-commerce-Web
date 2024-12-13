@@ -373,20 +373,82 @@
             } else header("location:./admin.php?act=tkmktc&dk=no");
     }
     if (isset($_POST['btntkadd'])) {
-        if (isset($_POST['tendangnhap']))
-            if ($_POST['tendangnhap'] != '') {
-                if (isset($_POST['matkhau']))
-                    if ($_POST['matkhau'] != '') {
-                        if (isset($_POST['name']))
-                            if ($_POST['name'] != '') {
-                                $sql2 = "INSERT INTO `taikhoang`(`id_quyen`,`username`,`pass`,`fullname`) VALUES (3,'" . $_POST['tendangnhap'] . "','" . $_POST['matkhau'] . "','" . $_POST['name'] . "')";
-                                $result1 = mysqli_query($con, $sql2);
-                                if ($result1)
-                                    header("location:./admin.php?act=addtktc&dk=yes");
-                                else header("location:./admin.php?act=addtktc&dk=no");
-                            } else header("location:./admin.php?act=addtktc&dk=no");
-                    } else header("location:./admin.php?act=addtktc&dk=no");
-            } else header("location:./admin.php?act=addtktc&dk=no");
+        $tendangnhap = mysqli_real_escape_string($con, $_POST['tendangnhap']);
+        $matkhau = mysqli_real_escape_string($con, $_POST['matkhau']);
+        $name = mysqli_real_escape_string($con, $_POST['name']);
+    
+        // Check if username already exists
+        $check_username = mysqli_query($con, "SELECT * FROM `taikhoang` WHERE `username` = '$tendangnhap'");
+        
+        if (mysqli_num_rows($check_username) > 0) {
+            // Username already exists
+            echo "
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+            </head>
+            <body>
+                <script>
+                    swal({
+                        title: 'Lỗi!',
+                        text: 'Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.',
+                        icon: 'error',
+                        button: 'Quay lại'
+                    }).then((value) => {
+                        window.location.href = './admin.php?act=addtk';
+                    });
+                </script>
+            </body>
+            </html>";
+            exit();
+        }
+    
+        // If username is unique, proceed with account creation
+        $sql2 = "INSERT INTO `taikhoang`(`id_quyen`,`username`,`pass`,`fullname`) VALUES (3,'$tendangnhap','$matkhau','$name')";
+        $result1 = mysqli_query($con, $sql2);
+    
+        if ($result1) {
+            echo "
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+            </head>
+            <body>
+                <script>
+                    swal({
+                        title: 'Thành công!',
+                        text: 'Tài khoản đã được tạo thành công.',
+                        icon: 'success',
+                        button: 'OK'
+                    }).then((value) => {
+                        window.location.href = './admin.php?act=addtktc&dk=yes';
+                    });
+                </script>
+            </body>
+            </html>";
+        } else {
+            echo "
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+            </head>
+            <body>
+                <script>
+                    swal({
+                        title: 'Lỗi!',
+                        text: 'Không thể tạo tài khoản. Vui lòng thử lại.',
+                        icon: 'error',
+                        button: 'Quay lại'
+                    }).then((value) => {
+                        window.location.href = './admin.php?act=addtktc&dk=no';
+                    });
+                </script>
+            </body>
+            </html>";
+        }
     }
     if (isset($_POST['btntksua'])) {
         if (isset($_POST['quyen']))

@@ -21,7 +21,7 @@
                 <input style="width:250px" class="input1" type="text" name="address" value="" required placeholder="Địa chỉ" /><br>
             </div>
 		<input class="btn btn-danger"type="submit" name="dangky" value="Đăng Ký"/>
-        <a href="index.php" class="btn btn-primary">Thoát</a>
+        <a href="index.php?act=login" class="btn btn-primary">Đăng Nhập</a>
 		<?php require 'xulydangky.php';?>
 		</form>
       

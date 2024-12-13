@@ -47,7 +47,7 @@ if (isset($_GET['tmuc'])) {
         include('hoadon.php');
 }
 if (isset($_GET['tmuc'])) {
-    if ($_GET['tmuc'] == 'Danh mục')
+    if ($_GET['tmuc'] == 'Quản lý quyền')
         include('danhmucdemo.php');
 }
 if (isset($_GET['tmuc'])) {
@@ -307,7 +307,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./admin.php?tmuc=Quản lý quyền">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -411,7 +411,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./admin.php?tmuc=Quản lý quyền">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -427,7 +427,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thành công</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./admin.php?tmuc=Quản lý quyền">Danh sách Danh mục</a>
 </div>');
 }
 if (isset($_GET['act'])) {
@@ -435,7 +435,7 @@ if (isset($_GET['act'])) {
     echo ('<div id="error-notify" class="box-content">
     <h2>Thất bại!!</h2>
     
-    <a href="./admin.php?tmuc=Danh mục">Danh sách Danh mục</a>
+    <a href="./admin.php?tmuc=Quản lý quyền">Danh sách Danh mục</a>
 </div>');
 }
 ?>
