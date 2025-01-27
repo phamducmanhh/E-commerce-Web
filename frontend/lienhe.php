@@ -63,7 +63,7 @@
                                 placeholder="Tiêu đề của bạn">
                         </div>
                         <div class="input__container">
-                            <label for="message">Lời nhắn của bạn</label>
+                            <label for="message">Lời nhắn </label>
                              
                             <textarea name="message" class="form-control" cols="30" rows="10" required></textarea>
                         </div>

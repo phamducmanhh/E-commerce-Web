@@ -145,7 +145,7 @@ if($isAjax) {
             <select id="yearSelector" class="form-control w-25 ml-2">
                 <?php 
                 $currentYear = date('Y');
-                for($y = $currentYear - 5; $y <= $currentYear; $y++): ?>
+                for($y = $currentYear - 10; $y <= $currentYear; $y++): ?>
                     <option value="<?php echo $y; ?>" <?php echo ($y == $year2) ? 'selected' : ''; ?>>
                         Năm <?php echo $y; ?>
                     </option>
